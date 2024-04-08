@@ -4,3 +4,6 @@
 [submodule "lib/foundry-random"]
 	path = lib/foundry-random
 	url = https://github.com/joejordan/foundry-random
+[submodule "lib/evc-playground"]
+	path = lib/evc-playground
+	url = https://github.com/euler-xyz/evc-playground
