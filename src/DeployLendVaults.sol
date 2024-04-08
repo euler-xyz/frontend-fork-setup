@@ -160,7 +160,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         }
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
-        string memory lendAppLocation = "./lists/";
+        string memory lendAppLocation = "./lists/local/";
         string memory outputPath =
             lendAppLocation.concat("vaultList").concat("-").concat(blockNumberStr).concat(".json");
         vm.writeJson(resultAll, outputPath);
