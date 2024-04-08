@@ -1,6 +1,8 @@
 [profile.default]
-src = "src"
-out = "out"
-libs = ["lib"]
+script = "lib/euler-vault-kit/script"
+fs_permissions = [{ access = "read-write", path = "./"}]
+memory_limit = 10000000000000
 
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+[etherscan]
+#                 Paste TENDERLY_ACCESS_KEY      Chain ID          Verification URL: RPC_URL/verify/etherscan
+unknown_chain = { key = '("VERIFIER_API_KEY")', chain = 41337, url = '("REMOTE_RPC_URL")/verify/etherscan' }
