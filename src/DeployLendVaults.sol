@@ -21,6 +21,7 @@ import {BalanceForwarder} from "euler-vault-kit/src/EVault/modules/BalanceForwar
 import {Governance} from "euler-vault-kit/src/EVault/modules/Governance.sol";
 import {Dispatch} from "euler-vault-kit/src/EVault/Dispatch.sol";
 import {EVault} from "euler-vault-kit/src/EVault/EVault.sol";
+import {IEVault, IERC20} from "euler-vault-kit/src/EVault/IEVault.sol";
 import {EVaultLens} from "euler-vault-kit/src/lens/EVaultLens.sol";
 import {VaultInfo} from "euler-vault-kit/src/lens/LensTypes.sol";
 import {MockPriceOracle} from "euler-vault-kit/test/mocks/MockPriceOracle.sol";
@@ -105,6 +106,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vault.setName(string(abi.encodePacked("Vault ", tokenList[i].name)));
             vault.setSymbol(string(abi.encodePacked("e", tokenList[i].symbol)));
             vault.setInterestRateModel(address(interestRateModel));
+            // approveAndDepositToVault(address(vault), tokenList[i].addressInfo, 100e18, deployer);
             vaults[i] = vault;
         }
 
@@ -147,7 +149,14 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         string memory lendAppLocation = "./lists/local/";
         string memory outputPath = string.concat(lendAppLocation, "vaultList", "-", blockNumberStr, ".json");
         vm.writeJson(resultAll, outputPath);
-        vm.writeJson(resultAll, string.concat(lendAppLocation, "vaultList-latest.json"));
+        // vm.writeJson(resultAll, lendAppLocation.concat("vaultList-latest.json"));
+    }
+
+    function approveAndDepositToVault(address _vault, address _token, uint256 _amount, address _receiver) private {
+        IERC20 token = IERC20(_token);
+        IEVault vault = IEVault(_vault);
+        token.approve(_vault, _amount);
+        vault.deposit(_amount, _receiver);
     }
 
     function setPriceOracle(
