@@ -9,3 +9,4 @@ solmate/=lib/euler-vault-kit/lib/permit2/lib/solmate/
 reward-streams/=lib/euler-vault-kit/lib/reward-streams/src/
 euler-vault-kit/=lib/euler-vault-kit/
 foundry-random=lib/foundry-random/src/
+swaps=src/swaps

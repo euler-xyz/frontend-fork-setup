@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./swapHandlers/ISwapHandler.sol";
+import "swaps/swapHandlers/ISwapHandler.sol";
 
 import {IERC20, IEVault} from "euler-vault-kit/src/EVault/IEVault.sol";
 
