@@ -5,6 +5,7 @@ import "forge-std/Script.sol";
 import "forge-std/Test.sol";
 import "forge-std/StdJson.sol";
 import "forge-std/console2.sol";
+
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {ProtocolConfig} from "euler-vault-kit/src/ProtocolConfig/ProtocolConfig.sol";
@@ -47,28 +48,11 @@ struct TokenInfo {
     string symbol;
 }
 
-library StringUtils {
-    function concat(string memory _a, string memory _b) internal pure returns (string memory) {
-        bytes memory bytesA = bytes(_a);
-        bytes memory bytesB = bytes(_b);
-        bytes memory result = new bytes(bytesA.length + bytesB.length);
-        uint256 k = 0;
-        for (uint256 i = 0; i < bytesA.length; i++) {
-            result[k++] = bytesA[i];
-        }
-        for (uint256 i = 0; i < bytesB.length; i++) {
-            result[k++] = bytesB[i];
-        }
-        return string(result);
-    }
-}
-
 /// @title Deployment script
 /// @notice This script is used for deploying a couple vaults along with supporting contracts for testing purposes
 contract DeployLendVaults is Script, Test, FoundryRandom {
     using stdJson for string;
     using Strings for uint256;
-    using StringUtils for string;
 
     address internal constant PERMIT2_ADDRESS = 0x000000000022D473030F116dDEE9F6B43aC78BA3;
     address internal constant WETH_ADDRESS = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
@@ -161,10 +145,9 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
         string memory lendAppLocation = "./lists/local/";
-        string memory outputPath =
-            lendAppLocation.concat("vaultList").concat("-").concat(blockNumberStr).concat(".json");
+        string memory outputPath = string.concat(lendAppLocation, "vaultList", "-", blockNumberStr, ".json");
         vm.writeJson(resultAll, outputPath);
-        vm.writeJson(resultAll, lendAppLocation.concat("vaultList-latest.json"));
+        vm.writeJson(resultAll, string.concat(lendAppLocation, "vaultList-latest.json"));
     }
 
     function setPriceOracle(

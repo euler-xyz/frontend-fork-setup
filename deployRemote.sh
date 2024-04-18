@@ -1,4 +1,19 @@
 #!/bin/bash
+
+if ! command -v dotenv &> /dev/null
+then
+    echo "dotenv-cli could not be found. Do you want to install it now? (yes/no)"
+    read answer
+    if [ "$answer" = "yes" ]; then
+        npm i -g dotenv-cli
+        echo "dotenv-cli has been installed."
+    else
+        echo "Please install dotenv-cli by running 'npm i -g dotenv-cli' before proceeding."
+        exit 1
+    fi
+fi
+
+source .env.local
 # this script is used to manage the deployment of the contract to a remote network
 # Check if REMOTE_RPC_URL is set, if not, prompt the user
 # to persist that env variable between sessions
@@ -46,8 +61,15 @@ else
 	mnemonic=$MNEMONIC
 fi
 
+echo "Select a script to deploy from the list below:"
+select script_name in $(ls ./src/*.sol); do
+    export SCRIPT_NAME=$(basename "$script_name")
+    echo "You selected to deploy: $SCRIPT_NAME"
+    break
+done
+
 # confirm you want to deploy
-echo "Deploying to $REMOTE_RPC_URL with Verifier API Key: ********"
+echo "Deploying $SCRIPT_NAME to $REMOTE_RPC_URL with Verifier API Key: ********"
 echo "Do you want to continue? (y/n)"
 read confirm
 if [ "$confirm" != "y" ]; then
@@ -55,6 +77,7 @@ if [ "$confirm" != "y" ]; then
 	exit 1
 fi
 
+
 # we need to submit transaction with a slow mode to avoid issues
 # the script submits and verifies
-forge script ./src/DeployLendVaults.sol --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
+dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
