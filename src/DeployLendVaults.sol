@@ -168,14 +168,10 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
     ) private {
         address assetVault = vaults[randomVaultToSetAsCollateral].asset(); // get the asset of the controller vault
         address assetCollateral = vaults[randomVaultToSetLTV].asset(); // get the asset of the collateral vault
-        uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
-        uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);
-        MockPriceOracle(mockPriceOracle).setPrice(
-            assetVault, unitOfAccount, randomPriceFactorAssetVault * uint256(1e18)
-        );
-        MockPriceOracle(mockPriceOracle).setPrice(
-            assetCollateral, unitOfAccount, randomPriceFactorAssetCollateral * uint256(1e18)
-        );
+        // uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
+        // uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);
+        MockPriceOracle(mockPriceOracle).setPrice(assetVault, unitOfAccount, 1e18);
+        MockPriceOracle(mockPriceOracle).setPrice(assetCollateral, unitOfAccount, 1e18);
     }
 
     function deployStructure(address deployer)
