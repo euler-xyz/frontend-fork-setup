@@ -46,29 +46,44 @@ privateKey=$(echo "$privateKeyOutput" | grep 'Private key:' | awk '{print $3}')
 deployedVaultList=$(pwd)"/lists/$SELECTED_LIST"
 deployedVaultListJson=$(cat $deployedVaultList)
 
-# save here maxUint256 value
-amount=$(cast to-wei 10000000)
+approvalValue=1000000
+depositValue=100
+
+tokenListPath=$(pwd)"/data/forkTokenList.json"
+tokenListJson=$(cat $tokenListPath)
 
 for key in $(echo $deployedVaultListJson | jq -r 'keys[]'); do
 	echo "-------------------------------------------------------------------------------------------------------------------------------------------------"
 	vaultInfo=$(echo $deployedVaultListJson | jq -r --arg KEY "$key" '.[$KEY]')
 	vaultAddress=$(echo $vaultInfo | jq -r '.address')
 	vaultAsset=$(echo $vaultInfo | jq -r '.asset')
+	# in the tokenListJson find the object in the array that has addressInfo equal to the vaultAsset
+	tokenInfo=$(echo $tokenListJson | jq -r --arg VAULT_ASSET "$vaultAsset" '.[] | select(.addressInfo == $VAULT_ASSET)')
+	tokenAddress=$(echo $tokenInfo | jq -r '.addressInfo')
+	tokenDecimals=$(echo $tokenInfo | jq -r '.decimals')
+
+	echo "Token Address: $tokenAddress"
+	echo "Token Decimals: $tokenDecimals"
+	echo "Vault Address: $vaultAddress"
+	approvalAmount=$(cast to-wei $approvalValue $tokenDecimals)
+	depositAmount=$(cast to-wei $depositValue $tokenDecimals)
+	echo "Approval Amount: $approvalAmount"
+
 	approvalBefore=$(cast call $vaultAsset "allowance(address,address)(uint256)" $account $vaultAddress --rpc-url $REMOTE_RPC_URL --private-key $privateKey | awk '{print $1}')
 	echo "Approval Before $vaultAsset: $approvalBefore"
-	# if the approval before is not maxUint256, approve it
-	if [ "$approvalBefore" != "$amount" ]; then
-		# set approval to zero first
+	if [ "$approvalBefore" != "$approvalAmount" ]; then
+		# set approval to zero first to handle stupid tokens
 		approveReset=$(cast send --rpc-url $REMOTE_RPC_URL --private-key $privateKey $vaultAsset "approve(address,uint256)(bool)" $vaultAddress 0 | awk '{print $3}')
 		approveReset=$(echo $approveReset | awk '{print $1}')
 		echo "Approval Reset $vaultAsset: $approveReset"
-		approvalSuccess=$(cast send --rpc-url $REMOTE_RPC_URL --private-key $privateKey $vaultAsset "approve(address,uint256)(bool)" $vaultAddress $amount | awk '{print $3}')
+		approvalSuccess=$(cast send --rpc-url $REMOTE_RPC_URL --private-key $privateKey $vaultAsset "approve(address,uint256)(bool)" $vaultAddress $approvalAmount | awk '{print $3}')
 		approvalSuccess=$(echo $approvalSuccess | awk '{print $1}')
 		echo "Approval Success: $approvalSuccess"
 		approvalAfter=$(cast call $vaultAsset "allowance(address,address)(uint256)" $account $vaultAddress --rpc-url $REMOTE_RPC_URL --private-key $privateKey | awk '{print $1}')
 		echo "Approval After $vaultAsset: $approvalAfter"
 	fi
 
-	# todo: deposits
-
+	# deposit the amount
+	depositSuccess=$(cast send --rpc-url $REMOTE_RPC_URL --private-key $privateKey --gas-limit 1000000 $vaultAddress "deposit(uint256,address)" $depositAmount $account)
+	echo "Deposit Success: $depositSuccess"
 done
