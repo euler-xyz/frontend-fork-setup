@@ -16,5 +16,5 @@ fi
 if [ -z "$rpc_url" ]; then
 	anvil
 else
-	anvil --fork-url $rpc_url --chain-id 31337
+	anvil --fork-url $rpc_url --chain-id 41337 --gas-limit 1000000000 --block-base-fee-per-gas 1 --gas-price 1 --memory-limit 18446744073709551615 --no-storage-caching --compute-units-per-second 600 --no-rate-limit --config-out ./anvil.json
 fi
