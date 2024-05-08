@@ -84,6 +84,11 @@ if [ "$SHOULD_BE_LOCAL_TEST" = "y" ]; then
 	echo "Deploying $SCRIPT_NAME locally on: http://127.0.0.1:8545"
 	dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --ffi -vvv --broadcast --mnemonics "$MNEMONIC"
 else
+
+	# ask if we should verify contracts
+	echo "Do you want to verify contracts? (y/n):"
+	read verify_contracts
+
 	# confirm you want to deploy
 	echo "Deploying $SCRIPT_NAME to $REMOTE_RPC_URL with Verifier API Key: ********"
 	echo "Do you want to continue? (y/n)"
@@ -94,5 +99,9 @@ else
 	fi
 	# we need to submit transaction with a slow mode to avoid issues
 	# the script submits and verifies
-	dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
+	if [ "$verify_contracts" = "y" ]; then
+		dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
+	else
+		dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC"
+	fi
 fi

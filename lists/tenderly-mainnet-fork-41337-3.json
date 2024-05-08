@@ -1,0 +1,101 @@
+{
+  "0x01f2051f662c7e9e4bf73f3147c35bc5b1e3d87f": {
+    "address": "0x01f2051F662c7e9e4Bf73F3147C35bc5b1E3D87F",
+    "asset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Wrapped Ether",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eWETH",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0x095cb2e6fefcd75773e931749a9f076e7e3160f6": {
+    "address": "0x095Cb2E6fEFcD75773E931749a9f076E7e3160F6",
+    "asset": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Uniswap",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eUNI",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0x0d8675daeade70f27305643d9c32b20b16b525b0": {
+    "address": "0x0d8675DAEadE70f27305643d9c32B20b16B525b0",
+    "asset": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Aave",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eAAVE",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0x200467548cbb4bf74e8d36292eedaf2199e11976": {
+    "address": "0x200467548cBB4bf74E8D36292eEDAF2199e11976",
+    "asset": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Dai Stablecoin",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eDAI",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0x2216dbd0a1c4894cfcaefe51de1f6e05b9e30728": {
+    "address": "0x2216dBd0A1C4894cFCAeFE51de1F6e05b9E30728",
+    "asset": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Matic Token",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eMATIC",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0x26a41e8c2c920eeaa526800593598954d817c798": {
+    "address": "0x26A41E8C2C920eeaA526800593598954D817c798",
+    "asset": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Wrapped BTC",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eWBTC",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0x4c7dcbd3af6a8e14bcba1aa5fac89367db2957ba": {
+    "address": "0x4C7dcbD3Af6a8E14BcbA1Aa5Fac89367DB2957BA",
+    "asset": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Tether USD",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eUSDT",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0xba925e0d485cb3774729fadff01a34b4eb04b008": {
+    "address": "0xba925e0d485Cb3774729fAdFf01a34b4Eb04b008",
+    "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault USDCoin",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eUSDC",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "0xd90ab0471aa02d9c23e8e0b0b2b99decd3bdfb6e": {
+    "address": "0xD90AB0471Aa02d9C23e8e0b0B2B99DEcd3bDfB6e",
+    "asset": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    "evc": "0x29C5eAfE3Ed1F169b3CD594CE0506A3c0FFBfb85",
+    "interestRateModel": "0x755e617a9084612A9e929285D1Ade8b5798ba4d6",
+    "lens": "0x677Eb0277927A4ca6E5CFb60AA98237d944c37c4",
+    "name": "Vault Chainlink Token",
+    "oracle": "0x4ce5ff1930918DEbBEaC903BC214ebC2c54AF06e",
+    "symbol": "eLINK",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  }
+}
