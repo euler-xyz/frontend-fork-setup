@@ -16,7 +16,23 @@ else
 fi
 
 rpc_url=$REMOTE_RPC_URL
-account=$(cast wallet address --mnemonic "$MNEMONIC")
+
+# select mnemonic index from 0 to 10. ask the user
+echo "Enter account index (0-256):"
+read accountIndex
+# if accountIndex is not a number, exit
+if ! [[ $accountIndex =~ ^[0-9]+$ ]]; then
+	echo "Invalid account index"
+	exit 1
+fi
+
+# if accountIndex is greater than 256, exit
+if [ $accountIndex -gt 256 ]; then
+	echo "Account index is greater than 256"
+	exit 1
+fi
+
+account=$(cast wallet address --mnemonic "$MNEMONIC" --mnemonic-index $accountIndex)
 dealValue=1000000
 
 echo "Trying to deal the tokens to $account..."
