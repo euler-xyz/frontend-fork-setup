@@ -11,6 +11,7 @@ import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConn
 import {ProtocolConfig} from "euler-vault-kit/src/ProtocolConfig/ProtocolConfig.sol";
 import {GenericFactory} from "euler-vault-kit/src/GenericFactory/GenericFactory.sol";
 import {Base} from "euler-vault-kit/src/EVault/shared/Base.sol";
+import {SequenceRegistry} from "euler-vault-kit/src/SequenceRegistry/SequenceRegistry.sol";
 import {Initialize} from "euler-vault-kit/src/EVault/modules/Initialize.sol";
 import {Token} from "euler-vault-kit/src/EVault/modules/Token.sol";
 import {Vault} from "euler-vault-kit/src/EVault/modules/Vault.sol";
@@ -100,11 +101,11 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             console.log("unitOfAccount: ", unitOfAccount);
             EVault vault = EVault(
                 factory.createProxy(
-                    true, abi.encodePacked(address(tokenList[i].addressInfo), mockPriceOracle, unitOfAccount)
+                    address(0),
+                    true,
+                    abi.encodePacked(address(tokenList[i].addressInfo), mockPriceOracle, unitOfAccount)
                 )
             );
-            vault.setName(string(abi.encodePacked("Vault ", tokenList[i].name)));
-            vault.setSymbol(string(abi.encodePacked("e", tokenList[i].symbol)));
             vault.setInterestRateModel(address(interestRateModel));
             // approveAndDepositToVault(address(vault), tokenList[i].addressInfo, 100e18, deployer);
             vaults[i] = vault;
@@ -120,7 +121,10 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
                 }
                 uint256 randomLTV = randomNumber(1, 10);
                 vaults[randomVaultToSetLTV].setLTV(
-                    address(vaults[randomVaultToSetAsCollateral]), uint16(((1e4) * randomLTV) / 10), 0
+                    address(vaults[randomVaultToSetAsCollateral]),
+                    uint16(((1e4) * randomLTV) / 10), // borrowLTV
+                    uint16(((1e4) * randomLTV) / 10), // liquidationLTV
+                    0
                 );
                 setPriceOracle(
                     unitOfAccount, mockPriceOracle, vaults, randomVaultToSetLTV, randomVaultToSetAsCollateral
@@ -193,9 +197,11 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         // deploy the protocol config
         address protocolConfig = address(new ProtocolConfig(deployer, deployer));
 
+        address sequenceRegistry = address(new SequenceRegistry());
+
         // define the integrations struct
         Base.Integrations memory integrations =
-            Base.Integrations(address(evc), protocolConfig, rewardStreams, PERMIT2_ADDRESS);
+            Base.Integrations(address(evc), protocolConfig, sequenceRegistry, rewardStreams, PERMIT2_ADDRESS);
 
         // deploy the EVault modules
         Dispatch.DeployedModules memory modules = Dispatch.DeployedModules({
