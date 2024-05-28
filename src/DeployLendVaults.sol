@@ -23,7 +23,8 @@ import {Governance} from "euler-vault-kit/src/EVault/modules/Governance.sol";
 import {Dispatch} from "euler-vault-kit/src/EVault/Dispatch.sol";
 import {EVault} from "euler-vault-kit/src/EVault/EVault.sol";
 import {IEVault, IERC20} from "euler-vault-kit/src/EVault/IEVault.sol";
-import {EVaultLens} from "euler-vault-kit/src/lens/EVaultLens.sol";
+import {AccountLens} from "euler-vault-kit/src/lens/AccountLens.sol";
+import {VaultLens} from "euler-vault-kit/src/lens/VaultLens.sol";
 import {VaultInfo} from "euler-vault-kit/src/lens/LensTypes.sol";
 import {MockPriceOracle} from "euler-vault-kit/test/mocks/MockPriceOracle.sol";
 import {IRMTestDefault} from "euler-vault-kit/test/mocks/IRMTestDefault.sol";
@@ -88,7 +89,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             MockPriceOracle mockPriceOracle,
             IRMTestDefault interestRateModel,
             EthereumVaultConnector evc,
-            EVaultLens lens
+            VaultLens vaultLens,
+            AccountLens accountLens
         ) = deployStructure(deployer);
 
         uint256 randomNum;
@@ -144,7 +146,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vm.serializeAddress(vaultData, "unitOfAccount", unitOfAccount);
             vm.serializeAddress(vaultData, "interestRateModel", address(interestRateModel));
             vm.serializeAddress(vaultData, "evc", address(evc));
-            vm.serializeAddress(vaultData, "lens", address(lens));
+            vm.serializeAddress(vaultData, "vaultLens", address(vaultLens));
+            vm.serializeAddress(vaultData, "accountLens", address(accountLens));
             string memory result = vm.serializeAddress(vaultData, "oracle", address(mockPriceOracle));
             resultAll = vm.serializeString(outputKey, vaultData, result);
         }
@@ -185,7 +188,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             MockPriceOracle mockPriceOracle,
             IRMTestDefault interestRateModel,
             EthereumVaultConnector evc,
-            EVaultLens lens
+            VaultLens vaultLens,
+            AccountLens accountLens
         )
     {
         // deploy the EVC
@@ -228,7 +232,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         interestRateModel = new IRMTestDefault();
 
         // deploy the lens
-        lens = new EVaultLens();
+        vaultLens = new VaultLens();
+        accountLens = new AccountLens();
     }
 
     function addressToString(address _addr) public pure returns (string memory) {
