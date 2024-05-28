@@ -1,0 +1,110 @@
+{
+  "0x312413d4dcb95a45df7f1637974158eac5f3eea6": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0x312413d4dcb95a45DF7f1637974158eaC5F3EEA6",
+    "asset": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eWBTC-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eWBTC-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0x59f2b753ecfe604c0efa765af22f22772329d78c": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0x59f2B753eCfe604c0efA765af22f22772329d78C",
+    "asset": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eLINK-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eLINK-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0x75e056b0a3b9740883f740703e69bd14e9c83fe9": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0x75E056b0A3B9740883f740703E69BD14E9C83FE9",
+    "asset": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eUSDT-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eUSDT-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0x827fabb2277f40e1f9165449bdce1e86d5e4f428": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0x827FABb2277F40E1f9165449bdCe1e86D5e4f428",
+    "asset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eWETH-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eWETH-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0x8d8e8d7e044909856467f7046e88a47377f6c717": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0x8D8e8d7E044909856467F7046E88a47377F6c717",
+    "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eUSDC-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eUSDC-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0xa434bfcc1484867346fe609fdf64b94b8e7666a8": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0xa434BfCc1484867346Fe609FDF64B94B8E7666A8",
+    "asset": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eUNI-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eUNI-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0xc299c1607d1fab884273d27072729c92f05f1595": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0xC299C1607d1fab884273d27072729c92f05F1595",
+    "asset": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eAAVE-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eAAVE-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0xc986ee39b91821d9c070567e082cde42edac2f9f": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0xC986ee39B91821d9c070567E082Cde42EdAc2f9F",
+    "asset": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eDAI-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eDAI-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  },
+  "0xeccb756d4f6ea77d2e616cb83ea60821e5b2c518": {
+    "accountLens": "0x69F94e46cbC82Ab02781ac4FaFc3580d21f1a888",
+    "address": "0xecCb756D4f6EA77D2e616CB83Ea60821E5b2c518",
+    "asset": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+    "evc": "0x1F2C6E90F3DF741E0191eAbB1170f0B9673F12b3",
+    "interestRateModel": "0x9a8164cA007ff0899140719E9aEC9a9C889CbF1E",
+    "name": "EVK Vault eMATIC-1",
+    "oracle": "0x0b5dcAf621a877dAcF3C540c1e5208C8a3eb7B23",
+    "symbol": "eMATIC-1",
+    "unitOfAccount": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "vaultLens": "0xA3E5DfE71aE3e6DeC4D98fa28821dF355d7244B3"
+  }
+}
