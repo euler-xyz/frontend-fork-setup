@@ -27,9 +27,9 @@ import {IEVault, IERC20} from "euler-vault-kit/src/EVault/IEVault.sol";
 import {AccountLens} from "euler-vault-kit/src/lens/AccountLens.sol";
 import {VaultLens} from "euler-vault-kit/src/lens/VaultLens.sol";
 import {VaultInfo} from "euler-vault-kit/src/lens/LensTypes.sol";
-import {MockPriceOracle} from "euler-vault-kit/test/mocks/MockPriceOracle.sol";
 import {IRMTestDefault} from "euler-vault-kit/test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "euler-vault-kit/test/mocks/TestERC20.sol";
+import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 // --------------------------------------------------------------------------------------------------------
 // What matters is the alphabetical order.
@@ -172,8 +172,9 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         address quoteAsset = controller.unitOfAccount();
         // uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
         // uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);
-        mockPriceOracle.setPrice(address(controller), quoteAsset, 1e18);
-        mockPriceOracle.setPrice(address(collateral), quoteAsset, 1e18);
+        mockPriceOracle.setPrice(controller.asset(), quoteAsset, 1e18);
+        mockPriceOracle.setResolvedVault(address(collateral), true);
+        mockPriceOracle.setPrice(collateral.asset(), quoteAsset, 1e18);
     }
 
     function deployStructure(address deployer)

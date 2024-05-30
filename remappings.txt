@@ -10,3 +10,4 @@ reward-streams/=lib/reward-streams/src/
 euler-vault-kit/=lib/euler-vault-kit/
 foundry-random=lib/foundry-random/src/
 swaps=src/swaps
+src/=src/
