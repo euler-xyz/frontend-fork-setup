@@ -1,4 +1,4 @@
-ethereum-vault-connector/=lib/euler-vault-kit/lib/ethereum-vault-connector/src/
+ethereum-vault-connector/=lib/ethereum-vault-connector/src/
 permit2/=lib/euler-vault-kit/lib/permit2/
 ds-test/=lib/euler-vault-kit/lib/ethereum-vault-connector/lib/forge-std/lib/ds-test/src/
 erc4626-tests/=lib/euler-vault-kit/lib/openzeppelin-contracts/lib/erc4626-tests/

@@ -4,6 +4,9 @@
 [submodule "lib/foundry-random"]
 	path = lib/foundry-random
 	url = https://github.com/joejordan/foundry-random
+[submodule "lib/ethereum-vault-connector"]
+	path = lib/ethereum-vault-connector
+	url = https://github.com/euler-xyz/ethereum-vault-connector
 [submodule "lib/reward-streams"]
 	path = lib/reward-streams
 	url = https://github.com/euler-xyz/reward-streams
