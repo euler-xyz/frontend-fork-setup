@@ -117,21 +117,22 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
             for (uint256 j = 0; j < randomVaultsCount; j++) {
-                uint256 randomVaultToSetLTV = randomNumber(0, vaults.length - 1);
-                uint256 randomVaultToSetAsCollateral = randomNumber(0, vaults.length - 1);
-                if (randomVaultToSetLTV == randomVaultToSetAsCollateral) {
+                EVault randomController = vaults[randomNumber(0, vaults.length - 1)];
+                EVault randomCollateral = vaults[randomNumber(0, vaults.length - 1)];
+
+                if (address(randomController) == address(randomCollateral)) {
                     continue; // self collateralization is not allowed
                 }
+
                 uint256 randomLTV = randomNumber(10, 100);
-                vaults[randomVaultToSetLTV].setLTV(
-                    address(vaults[randomVaultToSetAsCollateral]),
+                randomController.setLTV(
+                    address(randomCollateral),
                     uint16(((1e4) * (randomLTV - 5)) / 100), // borrowLTV
                     uint16(((1e4) * randomLTV) / 100), // liquidationLTV
                     0
                 );
-                setPriceOracle(
-                    unitOfAccount, mockPriceOracle, vaults, randomVaultToSetLTV, randomVaultToSetAsCollateral
-                );
+
+                setPriceOracle(mockPriceOracle, randomController, randomCollateral);
             }
         }
 
@@ -167,19 +168,12 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         vault.deposit(_amount, _receiver);
     }
 
-    function setPriceOracle(
-        address quoteAsset,
-        MockPriceOracle mockPriceOracle,
-        EVault[] memory vaults,
-        uint256 vaultIdx,
-        uint256 randomVaultToSetAsCollateral
-    ) private {
-        address vault = address(vaults[vaultIdx]);
-        address assetCollateral = vaults[randomVaultToSetAsCollateral].asset();
+    function setPriceOracle(MockPriceOracle mockPriceOracle, EVault controller, EVault collateral) private {
+        address quoteAsset = controller.unitOfAccount();
         // uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
         // uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);
-        MockPriceOracle(mockPriceOracle).setPrice(vault, quoteAsset, 1e18);
-        MockPriceOracle(mockPriceOracle).setPrice(assetCollateral, quoteAsset, 1e18);
+        mockPriceOracle.setPrice(address(controller), quoteAsset, 1e18);
+        mockPriceOracle.setPrice(address(collateral), quoteAsset, 1e18);
     }
 
     function deployStructure(address deployer)
