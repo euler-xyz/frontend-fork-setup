@@ -1,66 +1,34 @@
-## Foundry
+## Euler v2 frontend testnet deployer
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Deploy a testnet setup with the Euler v2 smart contracts.
 
-Foundry consists of:
+## How to deploy
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
 
 ### Build
 
 ```shell
-$ forge build
+ forge build
 ```
 
-### Test
 
-```shell
-$ forge test
-```
+### Setup tokens
 
-### Format
+The current setup includes tokens which are deployed on Ethereum mainnet. If you use a forked mainnet, you can use the existing tokens. If you want to deploy to a different network or want to use different tokens, you can edit [forkTokenList.json](data/forkTokenList.json).
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
 
 ### Deploy
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
+To deploy the EVC, mock oracles, mock irms and a vault for each of the tokens in the forkTokenList.json run the following command:
 
 ```shell
-$ cast <subcommand>
+ MNEMONIC="your mnemonic" forge script ./src/DeployLendVaults.sol --rpc-url "http://your-rpc.com" --broadcast --ffi --slow
 ```
 
-### Help
+You will find all of the deployed contract addresses in the [lists/local/](lists/local/) directory.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+
+## Intended usage
+
+This setup is intended to be used for testing and development purposes.
+It is not intended to be used in a production environment and doing so may result in loss of funds and is in violation of the license agreement defined in the [Euler Vault Kit](https://github.com/euler-xyz/euler-vault-kit?tab=readme-ov-file#license).
