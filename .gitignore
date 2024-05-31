@@ -6,6 +6,7 @@ out/
 !/broadcast
 /broadcast/*
 /lists/local/*
+!/lists/local/.gitkeep
 # Docs
 docs/
 
