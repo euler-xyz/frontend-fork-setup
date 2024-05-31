@@ -4,9 +4,12 @@
 [submodule "lib/foundry-random"]
 	path = lib/foundry-random
 	url = https://github.com/joejordan/foundry-random
-[submodule "lib/evc-playground"]
-	path = lib/evc-playground
-	url = https://github.com/euler-xyz/evc-playground
+[submodule "lib/ethereum-vault-connector"]
+	path = lib/ethereum-vault-connector
+	url = https://github.com/euler-xyz/ethereum-vault-connector
+[submodule "lib/reward-streams"]
+	path = lib/reward-streams
+	url = https://github.com/euler-xyz/reward-streams
 [submodule "lib/euler-vault-kit"]
 	path = lib/euler-vault-kit
 	url = https://github.com/euler-xyz/euler-vault-kit

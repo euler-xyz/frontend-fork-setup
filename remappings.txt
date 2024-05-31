@@ -1,4 +1,4 @@
-ethereum-vault-connector/=lib/euler-vault-kit/lib/ethereum-vault-connector/src/
+ethereum-vault-connector/=lib/ethereum-vault-connector/src/
 permit2/=lib/euler-vault-kit/lib/permit2/
 ds-test/=lib/euler-vault-kit/lib/ethereum-vault-connector/lib/forge-std/lib/ds-test/src/
 erc4626-tests/=lib/euler-vault-kit/lib/openzeppelin-contracts/lib/erc4626-tests/
@@ -6,7 +6,8 @@ forge-gas-snapshot/=lib/euler-vault-kit/lib/permit2/lib/forge-gas-snapshot/src/
 forge-std/=lib/euler-vault-kit/lib/forge-std/src/
 openzeppelin-contracts/=lib/euler-vault-kit/lib/openzeppelin-contracts/contracts/
 solmate/=lib/euler-vault-kit/lib/permit2/lib/solmate/
-reward-streams/=lib/euler-vault-kit/lib/reward-streams/src/
+reward-streams/=lib/reward-streams/src/
 euler-vault-kit/=lib/euler-vault-kit/
 foundry-random=lib/foundry-random/src/
 swaps=src/swaps
+src/=src/
