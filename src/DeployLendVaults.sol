@@ -147,6 +147,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vm.serializeAddress(vaultData, "unitOfAccount", unitOfAccount);
             vm.serializeAddress(vaultData, "interestRateModel", address(interestRateModel));
             vm.serializeAddress(vaultData, "evc", address(evc));
+            vm.serializeAddress(vaultData, "genericFactory", address(factory));
             vm.serializeAddress(vaultData, "rewardStreams", address(rewardStreams));
             vm.serializeAddress(vaultData, "vaultLens", address(vaultLens));
             vm.serializeAddress(vaultData, "accountLens", address(accountLens));
