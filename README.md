@@ -1,6 +1,6 @@
 ## Euler v2 frontend testnet deployer
 
-Deploy a testnet setup with the Euler v2 smart contracts.
+Deploy a testnet setup for the [EVK](https://github.com/euler-xyz/euler-vault-kit) and [EVC](https://github.com/euler-xyz/ethereum-vault-connector/).
 
 ## How to deploy
 
