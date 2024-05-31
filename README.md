@@ -26,3 +26,9 @@ To deploy the EVC, mock oracles, mock irms and a vault for each of the tokens in
 ```
 
 You will find all of the deployed contract addresses in the [list/local/](list/local/) directory.
+
+
+## Intended usage
+
+This setup is intended to be used for testing and development purposes.
+It is not intended to be used in a production environment and doing so may result in loss of funds and is in violation of the license agreement defined in the [Euler Vault Kit](https://github.com/euler-xyz/euler-vault-kit?tab=readme-ov-file#license).
