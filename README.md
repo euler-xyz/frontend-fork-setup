@@ -25,7 +25,7 @@ To deploy the EVC, mock oracles, mock irms and a vault for each of the tokens in
  MNEMONIC="your mnemonic" forge script ./src/DeployLendVaults.sol --rpc-url "http://your-rpc.com" --broadcast --ffi --slow
 ```
 
-You will find all of the deployed contract addresses in the [list/local/](list/local/) directory.
+You will find all of the deployed contract addresses in the [lists/local/](lists/local/) directory.
 
 
 ## Intended usage
