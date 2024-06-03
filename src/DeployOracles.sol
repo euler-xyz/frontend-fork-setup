@@ -3,15 +3,8 @@ pragma solidity ^0.8.0;
 import "forge-std/StdJson.sol";
 import {Script} from "forge-std/Script.sol";
 import {Test} from "forge-std/Test.sol";
-import {
-    WETH,
-    USD,
-    CRV,
-    ENS,
-    WBTC,
-    WSTETH,
-    STETH
-} from "euler-price-oracle-test/utils/EthereumAddresses.sol";
+import {console2} from "forge-std/console2.sol";
+import {WETH, USD, CRV, ENS, WBTC, WSTETH, STETH} from "euler-price-oracle-test/utils/EthereumAddresses.sol";
 import {CHAINLINK_ETH_USD_FEED} from "euler-price-oracle-test/adapter/chainlink/ChainlinkAddresses.sol";
 import {CHRONICLE_BTC_USD_FEED} from "euler-price-oracle-test/adapter/chronicle/ChronicleAddresses.sol";
 import {PYTH, PYTH_ENS_USD_FEED} from "euler-price-oracle-test/adapter/pyth/PythFeeds.sol";
@@ -20,6 +13,7 @@ import {ChainlinkOracle} from "euler-price-oracle/adapter/chainlink/ChainlinkOra
 import {ChronicleOracle} from "euler-price-oracle/adapter/chronicle/ChronicleOracle.sol";
 import {LidoOracle} from "euler-price-oracle/adapter/lido/LidoOracle.sol";
 import {PythOracle} from "euler-price-oracle/adapter/pyth/PythOracle.sol";
+import {EulerRouter} from "euler-price-oracle/EulerRouter.sol";
 import {RedstoneCoreOracle} from "euler-price-oracle/adapter/redstone/RedstoneCoreOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
@@ -29,6 +23,7 @@ contract DeployOracles is Script, Test {
 
     string constant outputKey = "data";
     string resultAll = "";
+    address deployer;
 
     function run() public {
         execute(true);
@@ -123,31 +118,92 @@ contract DeployOracles is Script, Test {
         return oracle;
     }
 
-    function execute(bool useMnemonic) public {
-        address deployer = address(this);
+    function deployRouter() internal returns (EulerRouter) {
+        EulerRouter router = new EulerRouter(deployer);
+
+        string memory data = vm.toString(address(router));
+        vm.serializeString(data, "name", router.name());
+        vm.serializeAddress(data, "address", address(router));
+        vm.serializeAddress(data, "fallbackOracle", router.fallbackOracle());
+        string memory result = vm.serializeAddress(data, "governor", router.governor());
+        resultAll = vm.serializeString(outputKey, data, result);
+        return router;
+    }
+
+    function configureRouter(
+        EulerRouter router,
+        address[] memory bases,
+        address[] memory quotes,
+        address[] memory oracles,
+        address[] memory resolvedVaults
+    ) internal {
+        require(bases.length == quotes.length && quotes.length == oracles.length);
+
+        string memory data = vm.toString(address(router));
+        string memory result = vm.serializeAddress(data, "resolvedVaults", resolvedVaults);
+
+        uint256 length = bases.length;
+        string[] memory configStructs = new string[](length);
+        for (uint256 i = 0; i < length; ++i) {
+            string memory key = "configStruct";
+            vm.serializeAddress(key, "base", bases[i]);
+            vm.serializeAddress(key, "quote", quotes[i]);
+            configStructs[i] = vm.serializeAddress(key, "oracle", oracles[i]);
+            router.govSetConfig(bases[i], quotes[i], oracles[i]);
+        }
+        result = vm.serializeString(data, "configs", configStructs);
+
+        for (uint256 i = 0; i < resolvedVaults.length; ++i) {
+            router.govSetResolvedVault(resolvedVaults[i], true);
+        }
+
+        resultAll = vm.serializeString(outputKey, data, result);
+    }
+
+    function setUpDeployer(bool useMnemonic) internal {
+        deployer = address(this);
         if (useMnemonic) {
             uint256 deployerPrivateKey = vm.deriveKey(vm.envString("MNEMONIC"), 0);
             deployer = vm.addr(deployerPrivateKey);
             vm.startBroadcast(deployerPrivateKey);
         }
+    }
+
+    function execute(bool useMnemonic) public {
+        setUpDeployer(useMnemonic);
 
         ChainlinkOracle chainlink_WETH_USD = deployChainlinkOracle(WETH, USD, CHAINLINK_ETH_USD_FEED, 24 hours);
-
         ChronicleOracle chronicle_BTC_USD = deployChronicleOracle(WBTC, USD, CHRONICLE_BTC_USD_FEED, 24 hours);
-
         LidoOracle lido_WSTETH_STETH = deployLidoOracle();
-
         PythOracle pyth_ENS_USD = deployPythOracle(PYTH, ENS, USD, PYTH_ENS_USD_FEED, 5 minutes, 500);
-
         RedstoneCoreOracle redstone_CRV_USD = deployRedstoneCoreOracle(CRV, USD, REDSTONE_CRV_USD_FEED, 8, 3 minutes);
 
-        address[5] memory oracles = [
-            address(chainlink_WETH_USD),
-            address(chronicle_BTC_USD),
-            address(lido_WSTETH_STETH),
-            address(pyth_ENS_USD),
-            address(redstone_CRV_USD)
-        ];
+        address[] memory bases = new address[](5);
+        address[] memory quotes = new address[](5);
+        address[] memory oracles = new address[](5);
+        bases[0] = WETH;
+        quotes[0] = USD;
+        oracles[0] = address(chainlink_WETH_USD);
+
+        bases[1] = WBTC;
+        quotes[1] = USD;
+        oracles[1] = address(chronicle_BTC_USD);
+
+        bases[2] = WSTETH;
+        quotes[2] = STETH;
+        oracles[2] = address(lido_WSTETH_STETH);
+
+        bases[3] = ENS;
+        quotes[3] = USD;
+        oracles[3] = address(pyth_ENS_USD);
+
+        bases[4] = CRV;
+        quotes[4] = USD;
+        oracles[4] = address(redstone_CRV_USD);
+
+        EulerRouter router = deployRouter();
+
+        configureRouter(router, bases, quotes, oracles, new address[](0));
 
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();

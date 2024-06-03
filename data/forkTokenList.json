@@ -86,5 +86,21 @@
     "symbol": "CRV",
     "decimals": 18,
     "logoURI": "https://tokens.1inch.io/0xd533a949740bb3306d119cc777fa900ba034cd52.png"
+  },
+  {
+    "addressInfo": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+    "chainId": 1,
+    "name": "WrappedliquidstakedEther2.0",
+    "symbol": "wstETH",
+    "decimals": 18,
+    "logoURI": "https://tokens.1inch.io/0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png"
+  },
+  {
+    "addressInfo": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+    "chainId": 1,
+    "name": "stETH",
+    "symbol": "stETH",
+    "decimals": 18,
+    "logoURI": "https://tokens.1inch.io/0xae7ab96520de3a18e5e111b5eaab095312d7fe84.png"
   }
 ]
