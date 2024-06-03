@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.24;
 
 import "forge-std/Script.sol";
 import "forge-std/Test.sol";
@@ -9,26 +9,28 @@ import "forge-std/console2.sol";
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
-import {ProtocolConfig} from "euler-vault-kit/src/ProtocolConfig/ProtocolConfig.sol";
-import {GenericFactory} from "euler-vault-kit/src/GenericFactory/GenericFactory.sol";
-import {Base} from "euler-vault-kit/src/EVault/shared/Base.sol";
-import {SequenceRegistry} from "euler-vault-kit/src/SequenceRegistry/SequenceRegistry.sol";
-import {Initialize} from "euler-vault-kit/src/EVault/modules/Initialize.sol";
-import {Token} from "euler-vault-kit/src/EVault/modules/Token.sol";
-import {Vault} from "euler-vault-kit/src/EVault/modules/Vault.sol";
-import {Borrowing} from "euler-vault-kit/src/EVault/modules/Borrowing.sol";
-import {Liquidation} from "euler-vault-kit/src/EVault/modules/Liquidation.sol";
-import {RiskManager} from "euler-vault-kit/src/EVault/modules/RiskManager.sol";
-import {BalanceForwarder} from "euler-vault-kit/src/EVault/modules/BalanceForwarder.sol";
-import {Governance} from "euler-vault-kit/src/EVault/modules/Governance.sol";
-import {Dispatch} from "euler-vault-kit/src/EVault/Dispatch.sol";
-import {EVault} from "euler-vault-kit/src/EVault/EVault.sol";
-import {IEVault, IERC20} from "euler-vault-kit/src/EVault/IEVault.sol";
-import {AccountLens} from "euler-vault-kit/src/lens/AccountLens.sol";
-import {VaultLens} from "euler-vault-kit/src/lens/VaultLens.sol";
-import {VaultInfo} from "euler-vault-kit/src/lens/LensTypes.sol";
-import {IRMTestDefault} from "euler-vault-kit/test/mocks/IRMTestDefault.sol";
-import {TestERC20} from "euler-vault-kit/test/mocks/TestERC20.sol";
+import {WhitelistPerspective} from
+    "euler-perspectives/perspectives/immutable/ungoverned/whitelist/WhitelistPerspective.sol";
+import {ProtocolConfig} from "euler-vault-kit/ProtocolConfig/ProtocolConfig.sol";
+import {GenericFactory} from "euler-vault-kit/GenericFactory/GenericFactory.sol";
+import {Base} from "euler-vault-kit/EVault/shared/Base.sol";
+import {SequenceRegistry} from "euler-vault-kit/SequenceRegistry/SequenceRegistry.sol";
+import {Initialize} from "euler-vault-kit/EVault/modules/Initialize.sol";
+import {Token} from "euler-vault-kit/EVault/modules/Token.sol";
+import {Vault} from "euler-vault-kit/EVault/modules/Vault.sol";
+import {Borrowing} from "euler-vault-kit/EVault/modules/Borrowing.sol";
+import {Liquidation} from "euler-vault-kit/EVault/modules/Liquidation.sol";
+import {RiskManager} from "euler-vault-kit/EVault/modules/RiskManager.sol";
+import {BalanceForwarder} from "euler-vault-kit/EVault/modules/BalanceForwarder.sol";
+import {Governance} from "euler-vault-kit/EVault/modules/Governance.sol";
+import {Dispatch} from "euler-vault-kit/EVault/Dispatch.sol";
+import {EVault} from "euler-vault-kit/EVault/EVault.sol";
+import {IEVault, IERC20} from "euler-vault-kit/EVault/IEVault.sol";
+import {AccountLens} from "euler-vault-kit/lens/AccountLens.sol";
+import {VaultLens} from "euler-vault-kit/lens/VaultLens.sol";
+import {VaultInfo} from "euler-vault-kit/lens/LensTypes.sol";
+import {IRMTestDefault} from "evk/test/mocks/IRMTestDefault.sol";
+import {TestERC20} from "evk/test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
@@ -45,6 +47,19 @@ struct TokenInfo {
     string logoURI;
     string name;
     string symbol;
+}
+
+struct VaultData {
+    address[] vaults;
+    address unitOfAccount;
+    address interestRateModel;
+    address evc;
+    address whitelistPerspective;
+    address factory;
+    address rewardStreams;
+    address vaultLens;
+    address accountLens;
+    address oracle;
 }
 
 /// @title Deployment script
@@ -91,7 +106,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         ) = deployStructure(deployer);
 
         // we will create a token for each token in the list
-        EVault[] memory vaults = new EVault[](tokenList.length);
+        address[] memory vaults = new address[](tokenList.length);
 
         for (uint256 i = 0; i < tokenList.length; i++) {
             console.log("addressInfo: ", tokenList[i].addressInfo);
@@ -106,22 +121,24 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             );
             vault.setInterestRateModel(address(interestRateModel));
             // approveAndDepositToVault(address(vault), tokenList[i].addressInfo, 100e18, deployer);
-            vaults[i] = vault;
+            vaults[i] = address(vault);
         }
+
+        WhitelistPerspective whitelistPerspective = new WhitelistPerspective(vaults);
 
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
             for (uint256 j = 0; j < randomVaultsCount; j++) {
-                EVault randomController = vaults[randomNumber(0, vaults.length - 1)];
-                EVault randomCollateral = vaults[randomNumber(0, vaults.length - 1)];
+                address randomController = vaults[randomNumber(0, vaults.length - 1)];
+                address randomCollateral = vaults[randomNumber(0, vaults.length - 1)];
 
                 if (address(randomController) == address(randomCollateral)) {
                     continue; // self collateralization is not allowed
                 }
 
                 uint256 randomLTV = randomNumber(10, 100);
-                randomController.setLTV(
-                    address(randomCollateral),
+                IEVault(randomController).setLTV(
+                    randomCollateral,
                     uint16(((1e4) * (randomLTV - 5)) / 100), // borrowLTV
                     uint16(((1e4) * randomLTV) / 100), // liquidationLTV
                     0
@@ -131,30 +148,50 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             }
         }
 
-        string memory outputKey = "data";
-        string memory resultAll = "";
-        for (uint256 i = 0; i < vaults.length; i++) {
-            string memory vaultData = addressToString(address(vaults[i]));
-            vm.serializeAddress(vaultData, "address", address(vaults[i]));
-            vm.serializeAddress(vaultData, "asset", vaults[i].asset());
-            vm.serializeString(vaultData, "name", vaults[i].name());
-            vm.serializeString(vaultData, "symbol", vaults[i].symbol());
-            vm.serializeAddress(vaultData, "unitOfAccount", unitOfAccount);
-            vm.serializeAddress(vaultData, "interestRateModel", address(interestRateModel));
-            vm.serializeAddress(vaultData, "evc", address(evc));
-            vm.serializeAddress(vaultData, "genericFactory", address(factory));
-            vm.serializeAddress(vaultData, "rewardStreams", address(rewardStreams));
-            vm.serializeAddress(vaultData, "vaultLens", address(vaultLens));
-            vm.serializeAddress(vaultData, "accountLens", address(accountLens));
-            string memory result = vm.serializeAddress(vaultData, "oracle", address(mockPriceOracle));
-            resultAll = vm.serializeString(outputKey, vaultData, result);
-        }
+        VaultData memory vaultData = VaultData(
+            vaults,
+            unitOfAccount,
+            address(interestRateModel),
+            address(evc),
+            address(whitelistPerspective),
+            address(factory),
+            address(rewardStreams),
+            address(vaultLens),
+            address(accountLens),
+            address(mockPriceOracle)
+        );
+
+        string memory resultAll = serializeVaults(vaultData);
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
         string memory lendAppLocation = "./lists/local/";
         string memory outputPath = string.concat(lendAppLocation, "vaultList", "-", blockNumberStr, ".json");
         vm.writeJson(resultAll, outputPath);
-        // vm.writeJson(resultAll, lendAppLocation.concat("vaultList-latest.json"));
+        vm.writeJson(resultAll, lendAppLocation.concat("vaultList-latest.json"));
+    }
+
+    function serializeVaults(VaultData memory _vaultData) public returns (string memory) {
+        string memory outputKey = "data";
+        string memory resultAll = "";
+        for (uint256 i = 0; i < _vaultData.vaults.length; i++) {
+            string memory vaultData = addressToString(_vaultData.vaults[i]);
+            IEVault vault = IEVault(_vaultData.vaults[i]);
+            vm.serializeAddress(vaultData, "address", _vaultData.vaults[i]);
+            vm.serializeAddress(vaultData, "asset", vault.asset());
+            vm.serializeString(vaultData, "name", vault.name());
+            vm.serializeString(vaultData, "symbol", vault.symbol());
+            vm.serializeAddress(vaultData, "unitOfAccount", _vaultData.unitOfAccount);
+            vm.serializeAddress(vaultData, "interestRateModel", _vaultData.interestRateModel);
+            vm.serializeAddress(vaultData, "evc", _vaultData.evc);
+            vm.serializeAddress(vaultData, "whitelistPerspective", _vaultData.whitelistPerspective);
+            vm.serializeAddress(vaultData, "genericFactory", _vaultData.factory);
+            vm.serializeAddress(vaultData, "rewardStreams", _vaultData.rewardStreams);
+            vm.serializeAddress(vaultData, "vaultLens", _vaultData.vaultLens);
+            vm.serializeAddress(vaultData, "accountLens", _vaultData.accountLens);
+            string memory result = vm.serializeAddress(vaultData, "oracle", _vaultData.oracle);
+            resultAll = vm.serializeString(outputKey, vaultData, result);
+        }
+        return resultAll;
     }
 
     function approveAndDepositToVault(address _vault, address _token, uint256 _amount, address _receiver) private {
@@ -164,7 +201,9 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         vault.deposit(_amount, _receiver);
     }
 
-    function setPriceOracle(MockPriceOracle mockPriceOracle, EVault controller, EVault collateral) private {
+    function setPriceOracle(MockPriceOracle mockPriceOracle, address _controller, address _collateral) private {
+        IEVault controller = IEVault(_controller);
+        IEVault collateral = IEVault(_collateral);
         address quoteAsset = controller.unitOfAccount();
         // uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
         // uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);

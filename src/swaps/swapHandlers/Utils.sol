@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "euler-vault-kit/src/EVault/IEVault.sol";
+import "euler-vault-kit/EVault/IEVault.sol";
 
 library Utils {
     function safeTransferFrom(address token, address from, address to, uint256 value) internal {
