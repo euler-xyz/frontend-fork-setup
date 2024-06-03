@@ -13,3 +13,6 @@ docs/
 # Dotenv file
 .env*
 broa
+
+# Anvil files
+anvil.json
