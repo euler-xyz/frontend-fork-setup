@@ -167,7 +167,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         string memory lendAppLocation = "./lists/local/";
         string memory outputPath = string.concat(lendAppLocation, "vaultList", "-", blockNumberStr, ".json");
         vm.writeJson(resultAll, outputPath);
-        vm.writeJson(resultAll, lendAppLocation.concat("vaultList-latest.json"));
+        vm.writeJson(resultAll, string.concat(lendAppLocation, "vaultList-latest.json"));
     }
 
     function serializeVaults(VaultData memory _vaultData) public returns (string memory) {
