@@ -8,9 +8,11 @@ import "forge-std/console2.sol";
 
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
+import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
 import {ProtocolConfig} from "euler-vault-kit/src/ProtocolConfig/ProtocolConfig.sol";
 import {GenericFactory} from "euler-vault-kit/src/GenericFactory/GenericFactory.sol";
 import {Base} from "euler-vault-kit/src/EVault/shared/Base.sol";
+import {SequenceRegistry} from "euler-vault-kit/src/SequenceRegistry/SequenceRegistry.sol";
 import {Initialize} from "euler-vault-kit/src/EVault/modules/Initialize.sol";
 import {Token} from "euler-vault-kit/src/EVault/modules/Token.sol";
 import {Vault} from "euler-vault-kit/src/EVault/modules/Vault.sol";
@@ -22,11 +24,12 @@ import {Governance} from "euler-vault-kit/src/EVault/modules/Governance.sol";
 import {Dispatch} from "euler-vault-kit/src/EVault/Dispatch.sol";
 import {EVault} from "euler-vault-kit/src/EVault/EVault.sol";
 import {IEVault, IERC20} from "euler-vault-kit/src/EVault/IEVault.sol";
-import {EVaultLens} from "euler-vault-kit/src/lens/EVaultLens.sol";
+import {AccountLens} from "euler-vault-kit/src/lens/AccountLens.sol";
+import {VaultLens} from "euler-vault-kit/src/lens/VaultLens.sol";
 import {VaultInfo} from "euler-vault-kit/src/lens/LensTypes.sol";
-import {MockPriceOracle} from "euler-vault-kit/test/mocks/MockPriceOracle.sol";
 import {IRMTestDefault} from "euler-vault-kit/test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "euler-vault-kit/test/mocks/TestERC20.sol";
+import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 // --------------------------------------------------------------------------------------------------------
 // What matters is the alphabetical order.
@@ -87,10 +90,11 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             MockPriceOracle mockPriceOracle,
             IRMTestDefault interestRateModel,
             EthereumVaultConnector evc,
-            EVaultLens lens
+            TrackingRewardStreams rewardStreams,
+            VaultLens vaultLens,
+            AccountLens accountLens
         ) = deployStructure(deployer);
 
-        uint256 randomNum;
         // we will create a token for each token in the list
         EVault[] memory vaults = new EVault[](tokenList.length);
 
@@ -100,11 +104,11 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             console.log("unitOfAccount: ", unitOfAccount);
             EVault vault = EVault(
                 factory.createProxy(
-                    true, abi.encodePacked(address(tokenList[i].addressInfo), mockPriceOracle, unitOfAccount)
+                    address(0),
+                    false,
+                    abi.encodePacked(address(tokenList[i].addressInfo), mockPriceOracle, unitOfAccount)
                 )
             );
-            vault.setName(string(abi.encodePacked("Vault ", tokenList[i].name)));
-            vault.setSymbol(string(abi.encodePacked("e", tokenList[i].symbol)));
             vault.setInterestRateModel(address(interestRateModel));
             // approveAndDepositToVault(address(vault), tokenList[i].addressInfo, 100e18, deployer);
             vaults[i] = vault;
@@ -113,22 +117,25 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
             for (uint256 j = 0; j < randomVaultsCount; j++) {
-                uint256 randomVaultToSetLTV = randomNumber(0, vaults.length - 1);
-                uint256 randomVaultToSetAsCollateral = randomNumber(0, vaults.length - 1);
-                if (randomVaultToSetLTV == randomVaultToSetAsCollateral) {
+                EVault randomController = vaults[randomNumber(0, vaults.length - 1)];
+                EVault randomCollateral = vaults[randomNumber(0, vaults.length - 1)];
+
+                if (address(randomController) == address(randomCollateral)) {
                     continue; // self collateralization is not allowed
                 }
-                uint256 randomLTV = randomNumber(1, 10);
-                vaults[randomVaultToSetLTV].setLTV(
-                    address(vaults[randomVaultToSetAsCollateral]), uint16(((1e4) * randomLTV) / 10), 0
+
+                uint256 randomLTV = randomNumber(10, 100);
+                randomController.setLTV(
+                    address(randomCollateral),
+                    uint16(((1e4) * (randomLTV - 5)) / 100), // borrowLTV
+                    uint16(((1e4) * randomLTV) / 100), // liquidationLTV
+                    0
                 );
-                setPriceOracle(
-                    unitOfAccount, mockPriceOracle, vaults, randomVaultToSetLTV, randomVaultToSetAsCollateral
-                );
+
+                setPriceOracle(mockPriceOracle, randomController, randomCollateral);
             }
         }
 
-        string[] memory data = new string[](vaults.length);
         string memory outputKey = "data";
         string memory resultAll = "";
         for (uint256 i = 0; i < vaults.length; i++) {
@@ -140,7 +147,10 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vm.serializeAddress(vaultData, "unitOfAccount", unitOfAccount);
             vm.serializeAddress(vaultData, "interestRateModel", address(interestRateModel));
             vm.serializeAddress(vaultData, "evc", address(evc));
-            vm.serializeAddress(vaultData, "lens", address(lens));
+            vm.serializeAddress(vaultData, "genericFactory", address(factory));
+            vm.serializeAddress(vaultData, "rewardStreams", address(rewardStreams));
+            vm.serializeAddress(vaultData, "vaultLens", address(vaultLens));
+            vm.serializeAddress(vaultData, "accountLens", address(accountLens));
             string memory result = vm.serializeAddress(vaultData, "oracle", address(mockPriceOracle));
             resultAll = vm.serializeString(outputKey, vaultData, result);
         }
@@ -159,19 +169,13 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         vault.deposit(_amount, _receiver);
     }
 
-    function setPriceOracle(
-        address unitOfAccount,
-        MockPriceOracle mockPriceOracle,
-        EVault[] memory vaults,
-        uint256 vaultIdx,
-        uint256 randomVaultToSetAsCollateral
-    ) private {
-        address vault = address(vaults[vaultIdx]);
-        address assetCollateral = vaults[randomVaultToSetAsCollateral].asset();
+    function setPriceOracle(MockPriceOracle mockPriceOracle, EVault controller, EVault collateral) private {
+        address quoteAsset = controller.unitOfAccount();
         // uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
         // uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);
-        MockPriceOracle(mockPriceOracle).setPrice(vault, unitOfAccount, 1e18);
-        MockPriceOracle(mockPriceOracle).setPrice(assetCollateral, unitOfAccount, 1e18);
+        mockPriceOracle.setPrice(controller.asset(), quoteAsset, 1e18);
+        mockPriceOracle.setResolvedVault(address(collateral), true);
+        mockPriceOracle.setPrice(collateral.asset(), quoteAsset, 1e18);
     }
 
     function deployStructure(address deployer)
@@ -181,21 +185,26 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             MockPriceOracle mockPriceOracle,
             IRMTestDefault interestRateModel,
             EthereumVaultConnector evc,
-            EVaultLens lens
+            TrackingRewardStreams rewardStreams,
+            VaultLens vaultLens,
+            AccountLens accountLens
         )
     {
         // deploy the EVC
         evc = new EthereumVaultConnector();
 
         // deploy the reward streams contract
-        address rewardStreams = address(0); //address(new StakingFreeRewardStreams(IEVC(evc), 10 days));
+        rewardStreams = new TrackingRewardStreams(address(evc), 14 days);
 
         // deploy the protocol config
         address protocolConfig = address(new ProtocolConfig(deployer, deployer));
 
+        // deploy the sequence registry
+        address sequenceRegistry = address(new SequenceRegistry());
+
         // define the integrations struct
         Base.Integrations memory integrations =
-            Base.Integrations(address(evc), protocolConfig, rewardStreams, PERMIT2_ADDRESS);
+            Base.Integrations(address(evc), protocolConfig, sequenceRegistry, address(rewardStreams), PERMIT2_ADDRESS);
 
         // deploy the EVault modules
         Dispatch.DeployedModules memory modules = Dispatch.DeployedModules({
@@ -221,8 +230,9 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         // deploy a default interest rate model
         interestRateModel = new IRMTestDefault();
 
-        // deploy the lens
-        lens = new EVaultLens();
+        // deploy the lenses
+        vaultLens = new VaultLens();
+        accountLens = new AccountLens();
     }
 
     function addressToString(address _addr) public pure returns (string memory) {
