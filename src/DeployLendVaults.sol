@@ -31,18 +31,13 @@ import {IRMTestDefault} from "euler-vault-kit/test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "euler-vault-kit/test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
+
 // --------------------------------------------------------------------------------------------------------
 // What matters is the alphabetical order.
 // As the JSON object is an unordered data structure but the tuple is an ordered one,
 // we had to somehow give order to the JSON. The easiest way was to order the keys by alphabetical order.
 // That means that in order to decode the JSON object correctly, you will need to define attributes of the
 // struct with types that correspond to the values of the alphabetical order of the keys of the JSON.
-// --------------------------------------------------------------------------------------------------------
-// the order of the properties is important
-// make sure that the dynamic props like string, bytes, arrays
-// are last in the order of the json file and the struct
-// this costed me a lot of debugging time so leaving it here as some useful info
-
 struct TokenInfo {
     address addressInfo;
     uint256 chainId;
