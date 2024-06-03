@@ -14,6 +14,7 @@ import {ChronicleOracle} from "euler-price-oracle/adapter/chronicle/ChronicleOra
 import {LidoOracle} from "euler-price-oracle/adapter/lido/LidoOracle.sol";
 import {PythOracle} from "euler-price-oracle/adapter/pyth/PythOracle.sol";
 import {RedstoneCoreOracle} from "euler-price-oracle/adapter/redstone/RedstoneCoreOracle.sol";
+import "openzeppelin-contracts/utils/Strings.sol";
 
 contract DeployOracles is Script, Test {
     using stdJson for string;
@@ -68,31 +69,44 @@ contract DeployOracles is Script, Test {
         string memory resultAll = "";
 
         string memory clData = addressToString(address(chainlink_WETH_USD));
-        vm.serializeAddress(clData, "name", chainlink_WETH_USD.name());
+        vm.serializeString(clData, "name", chainlink_WETH_USD.name());
         vm.serializeAddress(clData, "address", address(chainlink_WETH_USD));
         vm.serializeAddress(clData, "base", chainlink_WETH_USD.base());
         vm.serializeAddress(clData, "quote", chainlink_WETH_USD.quote());
         vm.serializeAddress(clData, "feed", chainlink_WETH_USD.feed());
-        string memory result = vm.serializeUint256(clData, "maxStaleness", chainlink_WETH_USD.maxStaleness());
+        string memory result = vm.serializeUint(clData, "maxStaleness", chainlink_WETH_USD.maxStaleness());
         resultAll = vm.serializeString(outputKey, clData, result);
 
         string memory crData = addressToString(address(chronicle_BTC_USD));
-        vm.serializeAddress(clData, "name", chronicle_BTC_USD.name());
-        vm.serializeAddress(clData, "address", address(chronicle_BTC_USD));
-        vm.serializeAddress(clData, "base", chronicle_BTC_USD.base());
-        vm.serializeAddress(clData, "quote", chronicle_BTC_USD.quote());
-        vm.serializeAddress(clData, "feed", chronicle_BTC_USD.feed());
-        vm.serializeUint256(clData, "maxStaleness", chronicle_BTC_USD.maxStaleness());
-        resultAll = vm.serializeString(outputKey, clData, result);
+        vm.serializeString(crData, "name", chronicle_BTC_USD.name());
+        vm.serializeAddress(crData, "address", address(chronicle_BTC_USD));
+        vm.serializeAddress(crData, "base", chronicle_BTC_USD.base());
+        vm.serializeAddress(crData, "quote", chronicle_BTC_USD.quote());
+        vm.serializeAddress(crData, "feed", chronicle_BTC_USD.feed());
+        result = vm.serializeUint(crData, "maxStaleness", chronicle_BTC_USD.maxStaleness());
+        resultAll = vm.serializeString(outputKey, crData, result);
 
         address[5] memory oracles = [address(chainlink_WETH_USD), address(chronicle_BTC_USD), address(lido_WSTETH_STETH), address(pyth_ENS_USD), address(redstone_CRV_USD)];
 
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
-        vm.serializeAddress(outputKey, "swapHub", address(swapHub));
 
         string memory location = "./lists/local/";
         vm.writeJson(result, string.concat(location, "oracles-", blockNumberStr, ".json"));
         vm.writeJson(result, string.concat(location, "oracles-latest.json"));
+    }
+
+    function addressToString(address _addr) public pure returns (string memory) {
+        bytes32 value = bytes32(uint256(uint160(_addr)));
+        bytes memory alphabet = "0123456789abcdef";
+
+        bytes memory str = new bytes(42);
+        str[0] = "0";
+        str[1] = "x";
+        for (uint256 i = 0; i < 20; i++) {
+            str[2 + i * 2] = alphabet[uint256(uint8(value[i + 12] >> 4))];
+            str[3 + i * 2] = alphabet[uint256(uint8(value[i + 12] & 0x0f))];
+        }
+        return string(str);
     }
 }

@@ -6,7 +6,7 @@ import "forge-std/Test.sol";
 import "forge-std/StdJson.sol";
 import "forge-std/console2.sol";
 
-import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
+import {FoundryRandom} from "lib/foundry-random/src/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
 import {ProtocolConfig} from "euler-vault-kit/src/ProtocolConfig/ProtocolConfig.sol";
