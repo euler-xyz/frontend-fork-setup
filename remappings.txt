@@ -1,4 +1,5 @@
 ethereum-vault-connector/=lib/ethereum-vault-connector/src/
+euler-perspectives/=lib/euler-perspectives/src/
 permit2/=lib/euler-vault-kit/lib/permit2/
 ds-test/=lib/euler-vault-kit/lib/ethereum-vault-connector/lib/forge-std/lib/ds-test/src/
 erc4626-tests/=lib/euler-vault-kit/lib/openzeppelin-contracts/lib/erc4626-tests/
@@ -7,7 +8,8 @@ forge-std/=lib/euler-vault-kit/lib/forge-std/src/
 openzeppelin-contracts/=lib/euler-vault-kit/lib/openzeppelin-contracts/contracts/
 solmate/=lib/euler-vault-kit/lib/permit2/lib/solmate/
 reward-streams/=lib/reward-streams/src/
-euler-vault-kit/=lib/euler-vault-kit/
+evk/=lib/euler-vault-kit/
+euler-vault-kit/=lib/euler-vault-kit/src/
 foundry-random=lib/foundry-random/src/
 swaps=src/swaps
 src/=src/

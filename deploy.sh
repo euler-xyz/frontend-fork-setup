@@ -82,7 +82,10 @@ fi
 # if should be local test ?
 if [ "$SHOULD_BE_LOCAL_TEST" = "y" ]; then
 	echo "Deploying $SCRIPT_NAME locally on: http://127.0.0.1:8545"
-	dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --ffi -vvv --broadcast --mnemonics "$MNEMONIC"
+	# without --legacy we can sometimes get
+	# Error:
+	# Failed to get EIP-1559 fees
+	dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --legacy --ffi -vvv --broadcast --mnemonics "$MNEMONIC" --slow
 else
 
 	# ask if we should verify contracts

@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "swaps/swapHandlers/ISwapHandler.sol";
 
-import {IERC20, IEVault} from "euler-vault-kit/src/EVault/IEVault.sol";
+import {IERC20, IEVault} from "euler-vault-kit/EVault/IEVault.sol";
 
 /// @notice Common logic for executing and processing trades through external swap handler contracts
 contract SwapHub {
