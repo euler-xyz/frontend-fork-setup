@@ -1,17 +1,5 @@
 #!/bin/bash
 
-if ! command -v dotenv &>/dev/null; then
-	echo "dotenv-cli could not be found. Do you want to install it now? (yes/no)"
-	read answer
-	if [ "$answer" = "yes" ]; then
-		npm i -g dotenv-cli
-		echo "dotenv-cli has been installed."
-	else
-		echo "Please install dotenv-cli by running 'npm i -g dotenv-cli' before proceeding."
-		exit 1
-	fi
-fi
-
 source .env.local
 
 # ask for SHOULD_BE_LOCAL_TEST loaded as env liket the ones below (y/n)
@@ -20,28 +8,30 @@ if [ -z "$SHOULD_BE_LOCAL_TEST" ]; then
 	read should_be_local_test
 	export SHOULD_BE_LOCAL_TEST=$should_be_local_test
 fi
-# this script is used to manage the deployment of the contract to a remote network
-# Check if REMOTE_RPC_URL is set, if not, prompt the user
-# to persist that env variable between sessions
-if [ -z "$REMOTE_RPC_URL" ]; then
-	echo "Enter Remote RPC URL:"
-	read remote_rpc_url
-	# break if no rpc url is provided
-	if [ -z "$remote_rpc_url" ]; then
-		echo "No RPC URL provided, exiting..."
-		exit 1
-	fi
-	export REMOTE_RPC_URL=$remote_rpc_url
-else
-	# log the rpc url
-	echo "Using Remote RPC URL: $REMOTE_RPC_URL"
-	rpc_url=$REMOTE_RPC_URL
-fi
+
+export VERIFIER_API_KEY="" #placeholder for the foundry.toml
 
 # if not SHOULD BE LOCAL TEST, then ask for REMOTE_RPC_URL
 if [ "$SHOULD_BE_LOCAL_TEST" != "y" ]; then
+	# this script is used to manage the deployment of the contract to a remote network
+	# Check if REMOTE_RPC_URL is set, if not, prompt the user
+	# to persist that env variable between sessions
+	if [ -z "$REMOTE_RPC_URL" ]; then
+		echo "Enter Remote RPC URL:"
+		read remote_rpc_url
+		# break if no rpc url is provided
+		if [ -z "$remote_rpc_url" ]; then
+			echo "No RPC URL provided, exiting..."
+			exit 1
+		fi
+		export REMOTE_RPC_URL=$remote_rpc_url
+	else
+		# log the rpc url
+		echo "Using Remote RPC URL: $REMOTE_RPC_URL"
+		rpc_url=$REMOTE_RPC_URL
+	fi
 	# Ask for verifier api key
-	if [ -z "$VERIFIER_API_KEY" ]; then
+	if [ -z "$VERIFIER_API_KEY" -o "$VERIFIER_API_KEY" = "" ]; then
 		echo "Enter Verifier API Key:"
 		read verifier_api_key
 		# if verifier api key is empty, exit
@@ -55,6 +45,9 @@ if [ "$SHOULD_BE_LOCAL_TEST" != "y" ]; then
 		echo "Using Verifier API Key: ********"
 		verifier_api_key=$VERIFIER_API_KEY
 	fi
+else
+	echo "Using Local RPC URL: http://127.0.0.1:8545"
+	export REMOTE_RPC_URL=http://127.0.0.1:8545
 fi
 
 if [ -z "$MNEMONIC" ]; then
@@ -85,7 +78,7 @@ if [ "$SHOULD_BE_LOCAL_TEST" = "y" ]; then
 	# without --legacy we can sometimes get
 	# Error:
 	# Failed to get EIP-1559 fees
-	dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --legacy --ffi -vvv --broadcast --mnemonics "$MNEMONIC" --slow
+	MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --legacy --ffi -vvv --broadcast --mnemonics "$MNEMONIC" --slow
 else
 
 	# ask if we should verify contracts
@@ -103,8 +96,8 @@ else
 	# we need to submit transaction with a slow mode to avoid issues
 	# the script submits and verifies
 	if [ "$verify_contracts" = "y" ]; then
-		dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
+		MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
 	else
-		dotenv -c local -- forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC"
+		MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC"
 	fi
 fi
