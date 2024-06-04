@@ -43,7 +43,6 @@ if [[ $rpc_url == *"tenderly"* ]]; then
 	exit 0
 fi
 
-
 account=$(cast wallet address --mnemonic "$MNEMONIC")
 dealValue=1000000
 
@@ -77,25 +76,25 @@ for row in $(echo "${tokenListJson}" | jq -r '.[] | @base64'); do
 		slotOriginalValue=$(cast rpc --rpc-url $rpc_url eth_getStorageAt $asset $slotIndex "latest")
 
 		# set the storage slot to a dummy value
-		cast rpc --rpc-url $rpc_url anvil_setStorageAt $asset $slotIndex $(printf '0x%.64x' $dummyValue) > /dev/null
+		cast rpc --rpc-url $rpc_url anvil_setStorageAt $asset $slotIndex $(printf '0x%.64x' $dummyValue) >/dev/null
 
 		# get the balance of the account to check if the storage slot was set to the dummy value
 		balance=$(cast call $asset "balanceOf(address)(uint256)" $account | awk '{print $1}')
 
 		# check if the storage slot has been set to the expected dummy value
-    	if [ $balance -eq $dummyValue ]; then
+		if [ "$balance" = "$dummyValue" ]; then
 			# if the storage slot was found, set the storage slot to the deal value
-			cast rpc --rpc-url $rpc_url anvil_setStorageAt $asset $slotIndex $dealValueHex > /dev/null
+			cast rpc --rpc-url $rpc_url anvil_setStorageAt $asset $slotIndex $dealValueHex >/dev/null
 			successfullyDealt=true
 
 			echo "Successfully dealt $symbol"
 			break
-    	else
-	   		# if the storage slot was not found, set the storage slot back to the original value
-        	cast rpc --rpc-url $rpc_url anvil_setStorageAt $asset $slotIndex $slotOriginalValue > /dev/null
-    	fi
+		else
+			# if the storage slot was not found, set the storage slot back to the original value
+			cast rpc --rpc-url $rpc_url anvil_setStorageAt $asset $slotIndex $slotOriginalValue >/dev/null
+		fi
 	done
-	
+
 	if [ $successfullyDealt = false ]; then
 		echo "Failed to deal $symbol!"
 	fi

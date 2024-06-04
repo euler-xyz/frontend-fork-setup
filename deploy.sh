@@ -7,6 +7,14 @@ if [ -z "$SHOULD_BE_LOCAL_TEST" ]; then
 	echo "Should this be local anvil deploy (testing)? (y/n):"
 	read should_be_local_test
 	export SHOULD_BE_LOCAL_TEST=$should_be_local_test
+	# check if there is anvil running on port 8545
+	if [ "$SHOULD_BE_LOCAL_TEST" = "y" ]; then
+		echo "Checking if there is anvil running on port 8545..."
+		if [ -z "$(lsof -i :8545)" ]; then
+			echo "No anvil found, exiting... Run .anvil.sh before deploying locally"
+			exit 1
+		fi
+	fi
 fi
 
 export VERIFIER_API_KEY="" #placeholder for the foundry.toml
@@ -63,6 +71,13 @@ else
 	mnemonic=$MNEMONIC
 fi
 
+# ask if we need to deal tokens
+echo "Do you want to deal tokens? (y/n):"
+read deal_tokens
+if [ "$deal_tokens" = "y" ]; then
+	MNEMONIC=$MNEMONIC REMOTE_RPC_URL=$REMOTE_RPC_URL ./deal.sh
+fi
+
 if [ -z "$SCRIPT_NAME" ]; then
 	echo "Select a script to deploy from the list below:"
 	select script_name in $(ls ./src/*.sol); do
@@ -78,7 +93,7 @@ if [ "$SHOULD_BE_LOCAL_TEST" = "y" ]; then
 	# without --legacy we can sometimes get
 	# Error:
 	# Failed to get EIP-1559 fees
-	MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --legacy --ffi -vvv --broadcast --mnemonics "$MNEMONIC" --slow
+	MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url http://127.0.0.1:8545 --legacy --ffi -vvvv --broadcast --mnemonics "$MNEMONIC" --slow
 else
 
 	# ask if we should verify contracts

@@ -25,7 +25,7 @@ import {BalanceForwarder} from "euler-vault-kit/EVault/modules/BalanceForwarder.
 import {Governance} from "euler-vault-kit/EVault/modules/Governance.sol";
 import {Dispatch} from "euler-vault-kit/EVault/Dispatch.sol";
 import {EVault} from "euler-vault-kit/EVault/EVault.sol";
-import {IEVault, IERC20} from "euler-vault-kit/EVault/IEVault.sol";
+import {IEVault} from "euler-vault-kit/EVault/IEVault.sol";
 import {AccountLens} from "euler-vault-kit/lens/AccountLens.sol";
 import {VaultLens} from "euler-vault-kit/lens/VaultLens.sol";
 import {VaultInfo} from "euler-vault-kit/lens/LensTypes.sol";
@@ -33,13 +33,15 @@ import {IRMTestDefault} from "evk/test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "evk/test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
-
+import {SafeERC20} from "openzeppelin-contracts/token/ERC20/utils/SafeERC20.sol";
+import {IERC20} from "openzeppelin-contracts/token/ERC20/IERC20.sol";
 // --------------------------------------------------------------------------------------------------------
 // What matters is the alphabetical order.
 // As the JSON object is an unordered data structure but the tuple is an ordered one,
 // we had to somehow give order to the JSON. The easiest way was to order the keys by alphabetical order.
 // That means that in order to decode the JSON object correctly, you will need to define attributes of the
 // struct with types that correspond to the values of the alphabetical order of the keys of the JSON.
+
 struct TokenInfo {
     address addressInfo;
     uint256 chainId;
@@ -128,6 +130,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
 
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
+            setupRewardStreams(vaults[i], rewardStreams, tokenList);
             for (uint256 j = 0; j < randomVaultsCount; j++) {
                 address randomController = vaults[randomNumber(0, vaults.length - 1)];
                 address randomCollateral = vaults[randomNumber(0, vaults.length - 1)];
@@ -168,6 +171,51 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         string memory outputPath = string.concat(lendAppLocation, "vaultList", "-", blockNumberStr, ".json");
         vm.writeJson(resultAll, outputPath);
         vm.writeJson(resultAll, string.concat(lendAppLocation, "vaultList-latest.json"));
+    }
+
+    function setupRewardStreams(address vault, TrackingRewardStreams rewardStreams, TokenInfo[] memory tokenList)
+        private
+    {
+        uint256 randomAmountOfTokenRewards = randomNumber(1, 5);
+        uint256[] memory indexesUsed = new uint256[](randomAmountOfTokenRewards);
+        for (uint256 i = 0; i < randomAmountOfTokenRewards; i++) {
+            uint256 randomTokenIndex = randomNumber(0, tokenList.length - 1);
+            if (arrayContains(indexesUsed, randomTokenIndex)) {
+                continue;
+            }
+            indexesUsed[i] = randomTokenIndex;
+            address randomToken = tokenList[randomTokenIndex].addressInfo;
+            uint256 tokenDecimals = tokenList[randomTokenIndex].decimals;
+            uint128 defaultAmountPerEpoch = uint128(1 * 10 ** tokenDecimals);
+            approveTokenPull(randomToken, address(rewardStreams), 10 * defaultAmountPerEpoch); // approve 10x the default amount per epoch
+
+            uint128[] memory epochAmounts = new uint128[](3);
+            epochAmounts[0] = defaultAmountPerEpoch;
+            epochAmounts[1] = defaultAmountPerEpoch;
+            epochAmounts[2] = defaultAmountPerEpoch;
+            // 14 days * 3 = 42 days
+            rewardStreams.registerReward(vault, randomToken, rewardStreams.currentEpoch() + 1, epochAmounts);
+        }
+    }
+
+    function approveTokenPull(address _token, address _rewardStreams, uint256 _amount) private {
+        IERC20 token = IERC20(_token);
+        if (token.allowance(msg.sender, _rewardStreams) < _amount) {
+            // Make sure we don't get any reverting transactions (e.g. USDT)
+            // even if its a force approval the boradcast simulations will fails since force approve
+            // will fail with reverting transactions and then try to reset the approval
+            SafeERC20.forceApprove(token, _rewardStreams, 0);
+            SafeERC20.forceApprove(token, _rewardStreams, _amount);
+        }
+    }
+
+    function arrayContains(uint256[] memory array, uint256 value) private pure returns (bool) {
+        for (uint256 i = 0; i < array.length; i++) {
+            if (array[i] == value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function serializeVaults(VaultData memory _vaultData) public returns (string memory) {

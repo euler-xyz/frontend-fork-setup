@@ -35,11 +35,7 @@ This documentation provides instructions on how to use the provided Bash scripts
 ### Prerequisites
 
 1. **Node.js and npm**: Ensure you have Node.js and npm installed. You can download and install them from [here](https://nodejs.org/).
-2. **dotenv-cli**: This utility is needed to load environment variables from the `.env.local` file.
-   ```bash
-   npm install -g dotenv-cli
-   ```
-3. **Anvil**: Ensure you have Anvil installed for running a local Ethereum testnet.
+2. **Anvil**: Ensure you have Anvil installed for running a local Ethereum testnet.
 
 ### Setting Up Your Environment
 
@@ -100,14 +96,13 @@ This script manages the deployment of smart contracts to either a local Anvil te
 
 ##### Usage:
 
-1. **Ensure `dotenv-cli` is installed**.
-2. **Ensure you have the `.env.local` file** with the required variables.
-3. **Run the script**:
+1. **Ensure you have the `.env.local` file** with the required variables.
+2. **Run the script**:
    ```bash
    . ./deploy.sh
    ```
 
-4. **Follow the prompts**:
+3. **Follow the prompts**:
    - You will be asked if the deployment is for a local test.
    - If deploying to a remote network, enter the remote RPC URL, verifier API key, and mnemonic when prompted.
    - Select the script you want to deploy if not already specified.
