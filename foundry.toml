@@ -1,8 +1,10 @@
 [profile.default]
 script = "lib/euler-vault-kit/script"
-fs_permissions = [{ access = "read-write", path = "./"}]
+fs_permissions = [{ access = "read-write", path = "./" }]
 memory_limit = 10000000000000
+evm_version = "cancun"
+cbor_metadata = true
 
 [etherscan]
 #                 Paste TENDERLY_ACCESS_KEY      Chain ID          Verification URL: RPC_URL/verify/etherscan
-unknown_chain = { key = '("VERIFIER_API_KEY")', chain = 41337, url = '("REMOTE_RPC_URL")/verify/etherscan' }
+unknown_chain = { key = "${VERIFIER_API_KEY}", chain = 41337, url = "${REMOTE_RPC_URL}/verify/etherscan" }
