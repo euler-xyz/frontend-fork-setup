@@ -16,3 +16,6 @@ broa
 
 # Anvil files
 anvil.json
+
+# System files
+.DS_Store

@@ -9,8 +9,7 @@ import "forge-std/console2.sol";
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
-import {WhitelistPerspective} from
-    "euler-perspectives/perspectives/immutable/ungoverned/whitelist/WhitelistPerspective.sol";
+import {WhitelistPerspective} from "evk-periphery/Perspectives/immutable/ungoverned/whitelist/WhitelistPerspective.sol";
 import {ProtocolConfig} from "euler-vault-kit/ProtocolConfig/ProtocolConfig.sol";
 import {GenericFactory} from "euler-vault-kit/GenericFactory/GenericFactory.sol";
 import {Base} from "euler-vault-kit/EVault/shared/Base.sol";
@@ -29,8 +28,8 @@ import {IEVault, IERC20} from "euler-vault-kit/EVault/IEVault.sol";
 import {AccountLens} from "euler-vault-kit/lens/AccountLens.sol";
 import {VaultLens} from "euler-vault-kit/lens/VaultLens.sol";
 import {VaultInfo} from "euler-vault-kit/lens/LensTypes.sol";
-import {IRMTestDefault} from "evk/test/mocks/IRMTestDefault.sol";
-import {TestERC20} from "evk/test/mocks/TestERC20.sol";
+import {IRMTestDefault} from "euler-vault-kit-test/mocks/IRMTestDefault.sol";
+import {TestERC20} from "euler-vault-kit-test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
