@@ -36,6 +36,29 @@ account=$(cast wallet address --mnemonic "$MNEMONIC" --mnemonic-index $accountIn
 dealValue=1000000
 
 echo "Trying to deal the tokens to $account..."
+echo "Setting ETH balance..."
+ethDecimals=18
+ethDealValueCalc=$(echo "obase=16; $dealValue * 10^$ethDecimals" | bc)
+ethDealValueHex="0x$(printf $ethDealValueCalc)"
+# fund ETH first
+jsonPayload=$(jq -n \
+	--arg account "$account" \
+	--arg ethDealValueHex "$ethDealValueHex" \
+	'{
+				"jsonrpc": "2.0",
+				"method": "tenderly_setBalance",
+				"params": [
+					$account,
+					$ethDealValueHex
+				],
+				"id": 1
+				}')
+
+echo "JSON payload for $symbol: $jsonPayload"
+
+response=$(curl -s -X POST $rpc_url \
+	-H "Content-Type: application/json" \
+	-d "$jsonPayload")
 
 # Load the token list from the JSON file
 tokenListPath=$(pwd)"/data/forkTokenList.json"

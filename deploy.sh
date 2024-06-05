@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export VERIFIER_API_KEY="" #placeholder for the foundry.toml
 source .env.local
 
 # ask for SHOULD_BE_LOCAL_TEST loaded as env liket the ones below (y/n)
@@ -17,7 +18,6 @@ if [ -z "$SHOULD_BE_LOCAL_TEST" ]; then
 	fi
 fi
 
-export VERIFIER_API_KEY="" #placeholder for the foundry.toml
 
 # if not SHOULD BE LOCAL TEST, then ask for REMOTE_RPC_URL
 if [ "$SHOULD_BE_LOCAL_TEST" != "y" ]; then
@@ -111,8 +111,8 @@ else
 	# we need to submit transaction with a slow mode to avoid issues
 	# the script submits and verifies
 	if [ "$verify_contracts" = "y" ]; then
-		MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
+		MNEMONIC=$MNEMONIC VERIFIER_API_KEY=$VERIFIER_API_KEY REMOTE_RPC_URL=$REMOTE_RPC_URL forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --etherscan-api-key $VERIFIER_API_KEY --verifier-url $REMOTE_RPC_URL/verify/etherscan --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC" --verify --delay 5 --retries 5
 	else
-		MNEMONIC=$MNEMONIC forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC"
+		MNEMONIC=$MNEMONIC VERIFIER_API_KEY=$VERIFIER_API_KEY REMOTE_RPC_URL=$REMOTE_RPC_URL forge script ./src/$SCRIPT_NAME --rpc-url $REMOTE_RPC_URL --broadcast --ffi -vvv --slow --mnemonics "$MNEMONIC"
 	fi
 fi
