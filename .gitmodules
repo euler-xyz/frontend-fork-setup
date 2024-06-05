@@ -17,3 +17,6 @@
 [submodule "lib/euler-perspectives"]
 	path = lib/euler-perspectives
 	url = https://github.com/euler-xyz/euler-perspectives
+[submodule "lib/euler-price-oracle"]
+	path = lib/euler-price-oracle
+	url = https://github.com/euler-xyz/euler-price-oracle
