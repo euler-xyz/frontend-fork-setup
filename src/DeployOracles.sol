@@ -143,15 +143,18 @@ contract DeployOracles is Script, Test {
         string memory result = vm.serializeAddress(data, "resolvedVaults", resolvedVaults);
 
         uint256 length = bases.length;
-        string[] memory configStructs = new string[](length);
+        string memory configResult = "innerConfigs";
+        string memory innerResult = "";
         for (uint256 i = 0; i < length; ++i) {
-            string memory key = "configStruct";
+            string memory key = vm.toString(oracles[i]);
             vm.serializeAddress(key, "base", bases[i]);
             vm.serializeAddress(key, "quote", quotes[i]);
-            configStructs[i] = vm.serializeAddress(key, "oracle", oracles[i]);
+            string memory configData = vm.serializeAddress(key, "oracle", oracles[i]);
             router.govSetConfig(bases[i], quotes[i], oracles[i]);
+            innerResult = vm.serializeString(configResult, key, configData);
         }
-        result = vm.serializeString(data, "configs", configStructs);
+
+        result = vm.serializeString(data, "configs", innerResult);
 
         for (uint256 i = 0; i < resolvedVaults.length; ++i) {
             router.govSetResolvedVault(resolvedVaults[i], true);
