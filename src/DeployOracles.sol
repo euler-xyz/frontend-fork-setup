@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 import "forge-std/StdJson.sol";
 import {Script} from "forge-std/Script.sol";
 import {Test} from "forge-std/Test.sol";
-import {console2} from "forge-std/console2.sol";
 import {WETH, USD, CRV, ENS, WBTC, WSTETH, STETH} from "euler-price-oracle-test/utils/EthereumAddresses.sol";
 import {CHAINLINK_ETH_USD_FEED} from "euler-price-oracle-test/adapter/chainlink/ChainlinkAddresses.sol";
 import {CHRONICLE_BTC_USD_FEED} from "euler-price-oracle-test/adapter/chronicle/ChronicleAddresses.sol";
@@ -15,6 +14,7 @@ import {LidoOracle} from "euler-price-oracle/adapter/lido/LidoOracle.sol";
 import {PythOracle} from "euler-price-oracle/adapter/pyth/PythOracle.sol";
 import {EulerRouter} from "euler-price-oracle/EulerRouter.sol";
 import {RedstoneCoreOracle} from "euler-price-oracle/adapter/redstone/RedstoneCoreOracle.sol";
+import {AdapterRegistry} from "evk-periphery/OracleFactory/AdapterRegistry.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
 contract DeployOracles is Script, Test {
@@ -130,6 +130,15 @@ contract DeployOracles is Script, Test {
         return router;
     }
 
+    function deployAdapterRegistry() internal returns (AdapterRegistry) {
+        AdapterRegistry registry = new AdapterRegistry(deployer);
+
+        string memory data = "adapterRegistry";
+        string memory result = vm.serializeAddress(data, "address", address(registry));
+        resultAll = vm.serializeString(outputKey, data, result);
+        return registry;
+    }
+
     function configureRouter(
         EulerRouter router,
         address[] memory bases,
@@ -160,6 +169,35 @@ contract DeployOracles is Script, Test {
         for (uint256 i = 0; i < resolvedVaults.length; ++i) {
             router.govSetResolvedVault(resolvedVaults[i], true);
         }
+
+        resultAll = vm.serializeString(outputKey, data, result);
+    }
+
+    function configureAdapterRegistry(
+        AdapterRegistry registry,
+        address[] memory bases,
+        address[] memory quotes,
+        address[] memory adapters
+    ) internal {
+        require(bases.length == quotes.length && quotes.length == adapters.length);
+
+        string memory data = "adapterRegistry";
+
+        uint256 length = bases.length;
+        string memory configResult = "innerConfigs";
+        string memory innerResult = "innerConfigResult";
+        for (uint256 i = 0; i < length; ++i) {
+            string memory key = vm.toString(adapters[i]);
+            string memory object = "configObject";
+            vm.serializeAddress(object, "base", bases[i]);
+            vm.serializeAddress(object, "quote", quotes[i]);
+            vm.serializeUint(object, "addedAt", block.timestamp);
+            string memory configData = vm.serializeAddress(object, "oracle", adapters[i]);
+            registry.addAdapter(adapters[i], bases[i], quotes[i]);
+            innerResult = vm.serializeString(configResult, key, configData);
+        }
+
+        string memory result = vm.serializeString(data, "configs", innerResult);
 
         resultAll = vm.serializeString(outputKey, data, result);
     }
@@ -206,8 +244,10 @@ contract DeployOracles is Script, Test {
         oracles[4] = address(redstone_CRV_USD);
 
         EulerRouter router = deployRouter();
-
         configureRouter(router, bases, quotes, oracles, new address[](0));
+
+        AdapterRegistry adapterRegistry = deployAdapterRegistry();
+        configureAdapterRegistry(adapterRegistry, bases, quotes, oracles);
 
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
