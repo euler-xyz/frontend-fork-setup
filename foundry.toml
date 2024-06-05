@@ -7,4 +7,4 @@ cbor_metadata = true
 
 [etherscan]
 #                 Paste TENDERLY_ACCESS_KEY      Chain ID          Verification URL: RPC_URL/verify/etherscan
-unknown_chain = { key = "zz", chain = 41337, url = "${REMOTE_RPC_URL}/verify/etherscan" }
+unknown_chain = { key = "${VERIFIER_API_KEY}", chain = 41337, url = "${REMOTE_RPC_URL}/verify/etherscan" }
