@@ -144,12 +144,13 @@ contract DeployOracles is Script, Test {
 
         uint256 length = bases.length;
         string memory configResult = "innerConfigs";
-        string memory innerResult = "";
+        string memory innerResult = "innerConfigResult";
         for (uint256 i = 0; i < length; ++i) {
             string memory key = vm.toString(oracles[i]);
-            vm.serializeAddress(key, "base", bases[i]);
-            vm.serializeAddress(key, "quote", quotes[i]);
-            string memory configData = vm.serializeAddress(key, "oracle", oracles[i]);
+            string memory object = "configObject";
+            vm.serializeAddress(object, "base", bases[i]);
+            vm.serializeAddress(object, "quote", quotes[i]);
+            string memory configData = vm.serializeAddress(object, "oracle", oracles[i]);
             router.govSetConfig(bases[i], quotes[i], oracles[i]);
             innerResult = vm.serializeString(configResult, key, configData);
         }
