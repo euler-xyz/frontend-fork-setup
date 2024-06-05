@@ -147,6 +147,16 @@ Here is a step-by-step example workflow for using these scripts:
 
 By following these instructions, you can easily set up and deploy the contracts using the provided scripts.
 
+## Contract Verification
+Some contracts like the GenericFactory can't be picked up by foundry so they won't be verified.
+You might see this warning with different contract addresses of course:
+
+```
+We haven't found any matching bytecode for the following contracts: [0x3790ae2784142b4c1d519f991227f13c53deea98, 0xa316848ae06fe21389065dbf279b307aa5300c79, 0x951e8fcec37fb7d0df4d8603e404d486811703ca, 0x8278f966ffd89f87edd5fb92e3e1d5aa7ab6c4af, 0xc7e4a78e5a4934df1627206a1dde0bb79a978967, 0x2bf0b698b4738e81469ffa33c341babd63df1863, 0x20a6f1ee55bf00ade2f40db9eeda66221a504989, 0x325cdfc9841fd8c429054c64bcc351b3f55bf89c].
+
+This may occur when resuming a verification, but the underlying source code or compiler version has changed.
+```
+
 ## Intended usage
 
 This setup is intended to be used for testing and development purposes.
