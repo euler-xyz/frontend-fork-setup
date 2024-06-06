@@ -75,7 +75,6 @@ contract DeployOraclesFromList is DeployOracles {
         string memory json = vm.readFile(path);
 
         uint256 numOracles = json.readUint(".numOracles");
-        numOracles = 242;
         console2.log("[DeployOracles] Deploying %s oracles from oracle list at %s", numOracles, oracleListPath);
 
         EulerRouter router = deployRouter();
