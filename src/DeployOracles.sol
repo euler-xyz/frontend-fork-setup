@@ -206,6 +206,16 @@ contract DeployOracles is Script, Test {
         string memory configResult = "innerConfigs";
         string memory innerResult = "innerConfigResult";
         for (uint256 i = 0; i < length; ++i) {
+            if (router.getConfiguredOracle(bases[i], quotes[i]) != address(0)) {
+                console2.log(
+                    "[DeployOracles] EulerRouter config for base=%s quote=%s already exists. Skipping oracle %s.",
+                    bases[i],
+                    quotes[i],
+                    oracles[i]
+                );
+                continue;
+            }
+
             string memory key = vm.toString(oracles[i]);
             string memory object = "configObject";
             vm.serializeAddress(object, "base", bases[i]);
