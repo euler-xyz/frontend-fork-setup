@@ -901,16 +901,6 @@
     {
       "kind": "Chronicle",
       "chainId": 1,
-      "base": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x31BFA908637C29707e155Cfac3a50C9823bF8723",
-      "deviationThreshold": 400,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chronicle",
-      "chainId": 1,
       "base": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
       "quote": "0x0000000000000000000000000000000000000348",
       "feed": "0xa69e234a1f55072201127209a18230E89d9E71aC",
@@ -3979,16 +3969,6 @@
       ],
       "0x6810e776880C02933D47DB1b9fc05908e5386b96": [
         {
-          "kind": "Chronicle",
-          "chainId": 1,
-          "base": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
-          "quote": "0x0000000000000000000000000000000000000348",
-          "feed": "0x31BFA908637C29707e155Cfac3a50C9823bF8723",
-          "deviationThreshold": 400,
-          "heartbeat": 86400,
-          "inverse": true
-        },
-        {
           "kind": "Pyth",
           "chainId": 1,
           "base": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
@@ -6691,16 +6671,6 @@
     },
     "0x6810e776880C02933D47DB1b9fc05908e5386b96": {
       "0x0000000000000000000000000000000000000348": [
-        {
-          "kind": "Chronicle",
-          "chainId": 1,
-          "base": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
-          "quote": "0x0000000000000000000000000000000000000348",
-          "feed": "0x31BFA908637C29707e155Cfac3a50C9823bF8723",
-          "deviationThreshold": 400,
-          "heartbeat": 86400,
-          "inverse": false
-        },
         {
           "kind": "Pyth",
           "chainId": 1,
