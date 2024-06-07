@@ -35,11 +35,7 @@ This documentation provides instructions on how to use the provided Bash scripts
 ### Prerequisites
 
 1. **Node.js and npm**: Ensure you have Node.js and npm installed. You can download and install them from [here](https://nodejs.org/).
-2. **dotenv-cli**: This utility is needed to load environment variables from the `.env.local` file.
-   ```bash
-   npm install -g dotenv-cli
-   ```
-3. **Anvil**: Ensure you have Anvil installed for running a local Ethereum testnet.
+2. **Anvil**: Ensure you have Anvil installed for running a local Ethereum testnet.
 
 ### Setting Up Your Environment
 
@@ -100,14 +96,13 @@ This script manages the deployment of smart contracts to either a local Anvil te
 
 ##### Usage:
 
-1. **Ensure `dotenv-cli` is installed**.
-2. **Ensure you have the `.env.local` file** with the required variables.
-3. **Run the script**:
+1. **Ensure you have the `.env.local` file** with the required variables.
+2. **Run the script**:
    ```bash
    . ./deploy.sh
    ```
 
-4. **Follow the prompts**:
+3. **Follow the prompts**:
    - You will be asked if the deployment is for a local test.
    - If deploying to a remote network, enter the remote RPC URL, verifier API key, and mnemonic when prompted.
    - Select the script you want to deploy if not already specified.
@@ -151,6 +146,16 @@ Here is a step-by-step example workflow for using these scripts:
    - Confirm deployment and verification settings.
 
 By following these instructions, you can easily set up and deploy the contracts using the provided scripts.
+
+## Contract Verification
+Some contracts like the GenericFactory can't be picked up by foundry so they won't be verified.
+You might see this warning with different contract addresses of course:
+
+```
+We haven't found any matching bytecode for the following contracts: [0x3790ae2784142b4c1d519f991227f13c53deea98, 0xa316848ae06fe21389065dbf279b307aa5300c79, 0x951e8fcec37fb7d0df4d8603e404d486811703ca, 0x8278f966ffd89f87edd5fb92e3e1d5aa7ab6c4af, 0xc7e4a78e5a4934df1627206a1dde0bb79a978967, 0x2bf0b698b4738e81469ffa33c341babd63df1863, 0x20a6f1ee55bf00ade2f40db9eeda66221a504989, 0x325cdfc9841fd8c429054c64bcc351b3f55bf89c].
+
+This may occur when resuming a verification, but the underlying source code or compiler version has changed.
+```
 
 ## Intended usage
 
