@@ -1,103 +1,13 @@
 {
-  "timestamp": "2024-06-07T14:34:08.325Z",
-  "name": "Test Oracle List",
+  "timestamp": "2024-06-07T14:38:02.793Z",
+  "name": "Test Small Oracle List",
   "version": {
     "major": 0,
     "minor": 1,
     "patch": 0
   },
-  "numOracles": 241,
+  "numOracles": 58,
   "oracles": [
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x111111111117dC0aa78b770fA6A738034120C302",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x72AFAECF99C9d9C8215fF44C77B94B99C28741e8",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x111111111117dC0aa78b770fA6A738034120C302",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xc929ad75B72593967DE83E7F7Cda0493458261D9",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x6Df09E975c830ECae5bd4eD9d90f3A95a4f88012",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xdBdb4d16EdA451D0503b854CF79D55697F90c8DF",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x194a9AaF2e0b67c35915cD01101585A33Fe25CAa",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xc7de7f4d4C9c991fF62a07D18b3E31e349833A18",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xD10aBbC76679a20055E167BB80A24ac851b37056",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x31697852a68433DbCc2Ff612c516d69E3D9bd08F",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xba100000625a3754423978a60c9317c58a424e3D",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xC1438AA3823A6Ba0C159CfA8D98dF5A994bA120b",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xba100000625a3754423978a60c9317c58a424e3D",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xdF2917806E30300537aEB49A7663062F4d1F2b5F",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
     {
       "kind": "Chainlink",
       "chainId": 1,
@@ -115,36 +25,6 @@
       "quote": "0x0000000000000000000000000000000000000348",
       "feed": "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
       "deviationThreshold": 50,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xF017fcB346A1885194689bA23Eff2fE6fA5C483b",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x1B39Ee86Ec5979ba5C322b826B3ECb8C79991699",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xdbd020CAeF83eFd542f4De03e3cF0C28A4428bd5",
-      "deviationThreshold": 100,
       "heartbeat": 3600,
       "inverse": false
     },
@@ -171,36 +51,6 @@
     {
       "kind": "Chainlink",
       "chainId": 1,
-      "base": "0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xEEf0C605546958c1f899b6fB336C20671f9cD49F",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xC9CbF687f43176B302F03f5e58470b77D07c61c6",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xd962fC30A72A84cE50161031391756Bf2876Af5D",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
       "base": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
       "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "feed": "0x773616E4d11A78F511299002da57A0a94577F1f4",
@@ -215,16 +65,6 @@
       "quote": "0x0000000000000000000000000000000000000348",
       "feed": "0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9",
       "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x5C00128d4d1c2F4f652C267d7bcdD7aC99C16E16",
-      "deviationThreshold": 200,
       "heartbeat": 86400,
       "inverse": false
     },
@@ -251,319 +91,9 @@
     {
       "kind": "Chainlink",
       "chainId": 1,
-      "base": "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xC5f8c4aB091Be1A899214c0C3636ca33DcA0C547",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x636A000262F6aA9e1F094ABF0aD8f645C44f641C",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xfAA9147190c2C2cc5B8387B4f49016bDB3380572",
-      "deviationThreshold": 30,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x14d04Fff8D21bd62987a5cE9ce543d2F1edF5D3E",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xB9E1E3A9feFf48998E45Fa90847ed4D467E8BcfD",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x3f12643D3f6f874d39C2a4c9f2Cd6f2DbAC877FC",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xc944E90C64B2c07662A292be6244BDf05Cda44a7",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x17D054eCac33D91F7340645341eFB5DE9009F1C1",
-      "deviationThreshold": 200,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xc944E90C64B2c07662A292be6244BDf05Cda44a7",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x86cF33a451dE9dc61a2862FD94FF4ad4Bd65A5d2",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xBAEbEFc1D023c0feCcc047Bff42E75F15Ff213E6",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x656c0544eF4C98A6a98491833A89204Abb045d6b",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xf8fF43E991A81e6eC886a3D281A2C6cC19aE70Fc",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x4e844125952D32AcdF339BE976c98E22F6F318dB",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xDC530D9457755926550b59e8ECcdaE7624181557",
-      "deviationThreshold": 100,
-      "heartbeat": 21600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x82A44D92D6c329826dc557c5E1Be6ebeC5D5FeB9",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x7bAC85A8a13A4BcD8abb3eB7d6b4d632c5a57676",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xec1D1B3b0443256cc3860e24a46F108e699484Aa",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xec67005c4E498Ec7f55E092bd1d35cbC47C91892",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xDaeA8386611A157B08829ED4997A8A62B557014C",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x8E870D67F660D95d5be530380D0eC0bd388289E1",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x3a08ebBaB125224b7b6474384Ee39fBb247D2200",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x9B97304EA12EFed0FAd976FBeCAad46016bf269e",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xbC396689893D065F41bc2C6EcbeE5e0085233447",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x3b41D5571468904D4e53b6a8d93A6BaC43f02dC9",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
-      "deviationThreshold": 30,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x137dDB47Ee24EaA998a535Ab00378d6BFa84F893",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x393CC05baD439c9B36489384F11487d9C8410471",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x408e41876cCCDC0F92210600ef50372656052a38",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x3147D7203354Dc06D9fd350c7a2437bcA92387a4",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
       "base": "0xae78736Cd615f374D3085123A210448E74Fc6393",
       "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "feed": "0x536218f9E9Eb48863970252233c8F271f554C2d0",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xB4EFd85c19999D84251304bDA99E90B92300Bd93",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x536218f9E9Eb48863970252233c8F271f554C2d0",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x03c68933f7a3F76875C0bc670a58e69294cDFD01",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x8762db106B2c2A0bccB3A80d1Ed41273552616E8",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x759bBC1be8F90eE6457C44abc7d443842a976d02",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x3845badAde8e6dFF049820680d1F14bD3903a5d0",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x35E3f7E558C04cE7eEE1629258EcbbA03B36Ec56",
       "deviationThreshold": 200,
       "heartbeat": 86400,
       "inverse": false
@@ -575,26 +105,6 @@
       "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "feed": "0x8dD1CD88F43aF196ae478e91b9F5E4Ac69A97C61",
       "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x79291A9d692Df95334B1a0B3B4AE6bC606782f8c",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xDC3EA94CD0AC27d9A86C180091e7f78C683d3699",
-      "deviationThreshold": 100,
       "heartbeat": 86400,
       "inverse": false
     },
@@ -631,116 +141,6 @@
     {
       "kind": "Chainlink",
       "chainId": 1,
-      "base": "0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x7A9f34a0Aa917D438e9b6E630067062B7F8f6f3d",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x8e0b7e6062272B5eF4524250bFFF8e5Bd3497757",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xe572CeF69f43c2E488b33924AF04BDacE19079cf",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xCc70F09A6CC17553b2E31954cD36E4A2d89501f7",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xf951E335afb289353dc249e82926178EaC7DEd78",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xec21B3e882CE09928cb397DcfF31B15cBBD1e1C3",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x8CE9137d39326AD0cD6491fb5CC0CbA0e089b6A9",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xFb0CfD6c19e25DB4a08D8a204a387cEa48Cc138f",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x8dAEBADE922dF735c38C80C7eBD708Af50815fAa",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x8350b7De6a6a2C1368E7D4Bd968190e13E354297",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x0000000000085d4780B73119b644AE5ecd22b376",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x3886BA987236181D98F2401c507Fb8BeA7871dF2",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x0000000000085d4780B73119b644AE5ecd22b376",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xec746eCF986E2927Abd291a2A1716c940100f8Ba",
-      "deviationThreshold": 30,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0xD6aA3D25116d8dA79Ea0246c4826EB951872e02e",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x553303d460EE0afB37EdFf9bE42922D8FF63220e",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
       "base": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "feed": "0x986b5E1e1755e3C2440e960477f25201B0a8bbD4",
@@ -761,31 +161,11 @@
     {
       "kind": "Chainlink",
       "chainId": 1,
-      "base": "0x0C10bF8FcB7Bf5412187A595ab97a3609160b5c6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x0ed39A19D2a68b722408d84e4d970827f61E6c0A",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
       "base": "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
       "quote": "0x0000000000000000000000000000000000000348",
       "feed": "0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961",
       "deviationThreshold": 50,
       "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x8E870D67F660D95d5be530380D0eC0bd388289E1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x09023c0DA49Aaf8fc3fA3ADF34C6A7016D38D5e3",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
       "inverse": false
     },
     {
@@ -811,71 +191,11 @@
     {
       "kind": "Chainlink",
       "chainId": 1,
-      "base": "0x0E573Ce2736Dd9637A0b21058352e1667925C7a8",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x925B831EB4c9fFA7e384254fb2cd508c65FAe3FE",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
       "base": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
       "quote": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
       "feed": "0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
       "deviationThreshold": 200,
       "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22",
-      "deviationThreshold": 50,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x7c5d4F8345e66f68099581Db340cd65B078C41f4",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xA027702dbb89fbd58938e4324ac03B58d812b0E1",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xE41d2489571d322189246DaFA5ebDe1F4699F498",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feed": "0x2Da4983a622a8498bb1a21FaE9D8F6C664939962",
-      "deviationThreshold": 200,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chainlink",
-      "chainId": 1,
-      "base": "0xE41d2489571d322189246DaFA5ebDe1F4699F498",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0x2885d15b8Af22648b98B122b22FDF4D2a56c6023",
-      "deviationThreshold": 100,
-      "heartbeat": 3600,
       "inverse": false
     },
     {
@@ -894,16 +214,6 @@
       "base": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "quote": "0x0000000000000000000000000000000000000348",
       "feed": "0x46ef0071b1E2fF6B42d36e5A177EA43Ae5917f4E",
-      "deviationThreshold": 100,
-      "heartbeat": 86400,
-      "inverse": false
-    },
-    {
-      "kind": "Chronicle",
-      "chainId": 1,
-      "base": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feed": "0xa69e234a1f55072201127209a18230E89d9E71aC",
       "deviationThreshold": 100,
       "heartbeat": 86400,
       "inverse": false
@@ -951,24 +261,6 @@
       "base": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0x4441490000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4658530000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4652415800000000000000000000000000000000000000000000000000000000",
       "decimals": 8,
       "inverse": false
     },
@@ -1029,60 +321,6 @@
     {
       "kind": "RedstoneCore",
       "chainId": 1,
-      "base": "0xf951E335afb289353dc249e82926178EaC7DEd78",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x5357455448000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xf951E335afb289353dc249e82926178EaC7DEd78",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x53574554485f4554480000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x3343727600000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4c55534400000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x47484f0000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4141564500000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
       "base": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       "quote": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "feedId": "0x555344432e555344540000000000000000000000000000000000000000000000",
@@ -1101,51 +339,6 @@
     {
       "kind": "RedstoneCore",
       "chainId": 1,
-      "base": "0x7825e833D495F3d1c28872415a4aee339D26AC88",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x544c4f5300000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4554487800000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x455448782f455448000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7765455448000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x77654554482f4554480000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
       "base": "0xae78736Cd615f374D3085123A210448E74Fc6393",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0x7245544800000000000000000000000000000000000000000000000000000000",
@@ -1158,96 +351,6 @@
       "base": "0xae78736Cd615f374D3085123A210448E74Fc6393",
       "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "feedId": "0x724554482f455448000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6f73455448000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x6f734554482f4554480000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x04C154b66CB340F3Ae24111CC767e0184Ed00Cc6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7078455448000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x04C154b66CB340F3Ae24111CC767e0184Ed00Cc6",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x70784554482f4554480000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x9Ba021B0a9b958B5E75cE9f6dff97C7eE52cb3E6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6170784554480000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x9Ba021B0a9b958B5E75cE9f6dff97C7eE52cb3E6",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x6170784554482f45544800000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4152420000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4555524f43000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x3175Df0976dFA876431C2E9eE6Bc45b65d3473CC",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6372764652415800000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x414c555344000000000000000000000000000000000000000000000000000000",
       "decimals": 8,
       "inverse": false
     },
@@ -1272,180 +375,9 @@
     {
       "kind": "RedstoneCore",
       "chainId": 1,
-      "base": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x554e490000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4c494e4b00000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
       "base": "0xD533a949740bb3306d119CC777fa900bA034cd52",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0x4352560000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4d4b520000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4150450000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4356580000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x59D9356E565Ab3A36dD77763Fc0d87fEaf85508C",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x5553444d00000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x57F5E098CaD7A3D1Eed53991D4d66C45C9AF7812",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x775553444d000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x7122985656e38BDC0302Db86685bb972b145bD3C",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x53544f4e45000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x5E8422345238F34275888049021821E8E08CAa1f",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6672784554480000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xA0d69E286B938e21CBf7E51D71F6A4c8918f482F",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6555534400000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x8762db106B2c2A0bccB3A80d1Ed41273552616E8",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x5253520000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7344414900000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0x582d872A1B094FC48F5DE31D3B73F2D9bE47def1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x544f4e0000000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xac3E018457B222d93114458476f3E3416Abbe38F",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7366727845544800000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7273455448000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x72734554482f4554480000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x657a455448000000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x657a4554482f4554480000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6372765553440000000000000000000000000000000000000000000000000000",
       "decimals": 8,
       "inverse": false
     },
@@ -1468,125 +400,11 @@
       "inverse": false
     },
     {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7273774554480000000000000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "RedstoneCore",
-      "chainId": 1,
-      "base": "0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0",
-      "quote": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "feedId": "0x7273774554482f45544800000000000000000000000000000000000000000000",
-      "decimals": 8,
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x111111111117dC0aa78b770fA6A738034120C302",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x63f341689d98a12ef60a5cff1d7f85c70a9e17bf1575f0e7c0b2512d48b1c8b3",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x2b9ab1e972a281585084148ba1389800799bd4be63b957507db1349314e47445",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x15add95022ae13563a11992e727c91bdb6b55bc183d9d747436c80a483d8c864",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x0b38210ea11411557c13457D4dA7dC6ea731B88a",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x95ea50020cf75a81a105d639fd74773ade522e12044600b52286ff5961c71412",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x3fa4252848f9f0a1480be62745a4629d9eb1322aebab8a791e344b3b9c1adcf5",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xba100000625a3754423978a60c9317c58a424e3D",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x07ad7b4a7662d19a6bc675f6b467172d2f3947fa653ca97555a9b20236406628",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xBA11D00c5f74255f56a5E366F4F77f5A186d7f55",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x5ab188823c117b3ac791391752f95fd701d923ccffa3436ecf7ba5d4bb4bd678",
-      "inverse": false
-    },
-    {
       "kind": "Pyth",
       "chainId": 1,
       "base": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x15ecddd26d49e1a8f1de9376ebebc03916ede873447c1255d2d5891b92ce5717",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x8A2279d4A90B6fe1C4B30fa660cC9f926797bAA2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xbd4dbcbfd90e6bc6c583e07ffcb5cb6d09a0c7b1221805211ace08c837859627",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x3506424F91fD33084466F402d5D97f05F8e3b4AF",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xe799f456b358a2534aa1b45141d454ac04b444ed23b1440b778549bb758f2b5c",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4a8e42861cabc5ecb50996f92e7cfa2bce3fd0a2423b0c44c9b423fb2bd25478",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xA0b73E1Ff0B80914AB6fe0444E65848C4C34450b",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x23199c2bcb1303f667e733b9934db9eca5991e765b45f5ed18bc4b231415f2fe",
       "inverse": false
     },
     {
@@ -1600,33 +418,9 @@
     {
       "kind": "Pyth",
       "chainId": 1,
-      "base": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6aac625e125ada0d2a6b98316493256ca733a5808cd34ccef79b0e28c64d1e76",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
       "base": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0xb0948a5e5313200c632b51bb5ca32f6de0d36e9950a942d19751e833f70dabfd",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x92D6C1e31e14520e676a687F0a93788B716BEff5",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6489800bb8974169adfe35937bf6736507097d13c190d760c557108c7e93a81b",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xb98ab6023650bd2edc026b983fb7c2f8fa1020286f1ba6ecf3f4322cd83b72a6",
       "inverse": false
     },
     {
@@ -1648,249 +442,9 @@
     {
       "kind": "Pyth",
       "chainId": 1,
-      "base": "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x76fa85158bf14ede77087fe3ae472f66213f6ea2f5b411cb2de472794990fa5c",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x06c217a791f5c4f988b36629af4cb88fad827b2485400a358f3b02886b54de92",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xccdc1a08923e2e4f4b1e6ea89de6acbc5fe1948e9706f5604b8cb50bc1ed3979",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xc3d5d8d6d17081b3d0bbca6e2fa3a6704bb9a9561d9f9e1dc52db47629f862ad",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x5E8422345238F34275888049021821E8E08CAa1f",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x29240ee3a9024d107888eb1d4c527216f06bd64cee030c6b5575b1a8d77cb659",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x735f591e4fed988cd38df74d8fcedecf2fe8d9111664e0fd500db9aa78b316b1",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xc5f60d00d926ee369ded32a38a6bd5c1e0faa936f91b987a5d0dcf3c5d8afab0",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xc944E90C64B2c07662A292be6244BDf05Cda44a7",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4d1f8dae0d96236fb98e8f47471a366ec3b1732b47041781934ca3a9bb2f35e7",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x056Fd409E1d7A124BD7017459dFEa2F387b6d5Cd",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xe186e116f2c7642d0d8aa89c32345d83ebeb350242b2274c46a19ea82e04fb8d",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x941320a8989414874de5aa2fc340a75d5ed91fdff1613dd55f83844d52ea63a2",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7a5bc1d2b56ad029048cd63964b3ad2776eadf812edc1a43a31406cb54bff592",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xb9ccc817bfeded3926af791f09f76c5ffbc9b789cac6e9699ec333a79cacbe2a",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xc63e2a7f37a04e5e614c07238bedb25dcc38927fba8fe890597a593c0b2fa4ad",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x8ac0c70fff57e9aefdf5edf44b51d62c2d433653cbb2cf5cc06bb115af04d221",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x6DEA81C8171D0bA574754EF6F8b412F2Ed88c54D",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x5e8b35b0da37ede980d8f4ddaa7988af73d8c3d110e3eddd2a56977beb839b63",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x1dfffdcbc958d732750f53ff7f06d24bb01364b3f62abea511a390c74b8d16a5",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x5de33a9112c2b700b8d30b8a3402c103578ccfa2765696471cc672bd5cf6ac52",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xd5F7838F5C461fefF7FE49ea5ebaF7728bB0ADfa",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xfbc9c3a716650b6e24ab22ab85b1c0ef4141b18f4590cc0b986e2f9064cf73d6",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x99D8a9C45b2ecA8864373A26D1459e3Dff1e17F3",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7aa41f6ee464616f3cbc469fddfd7e63d8db319b7bd585cc95b24c29c9172916",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x9375299e31c0deb9c6bc378e6329aab44cb48ec655552a70d4b9050346a30378",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xfAbA6f8e4a5E8Ab82F62fe7C39859FA577269BE3",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xd40472610abe56d36d065a0cf889fc8f1dd9f3b7f2a478231a5fc6df07ea5ce3",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xbfaf61069ca9164aba41935fa16488ce7c39b313e7faaa02fb4655b99caada05",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x273717b49430906f4b0c230e99aa1007f83758e3199edbc887c0d06c3e332494",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x808507121B80c02388fAd14726482e061B8da827",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x9a4df90b25497f66b1afb012467e316e801ca3d839456db028892fe8c70c8016",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
       "base": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0xd69731a2e74ac1ce884fc3890f7ee324b6deb66147055249568869ed700882e4",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xbC396689893D065F41bc2C6EcbeE5e0085233447",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x944f2f908c5166e0732ea5b610599116cd8e1c41f47452697c1e84138b7184d6",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xD9A442856C234a39a81a089C06451EBAa4306a72",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xe5801530292c348f322b7b4a48c1c0d59ab629846cce1c816fc27aee2054b560",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x04C154b66CB340F3Ae24111CC767e0184Ed00Cc6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x834be8951394714988606b3a1ac299c48bd07d68e5abb02766bcf881fdc1e69c",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xeFc0CED4B3D536103e76a1c4c74F0385C8F4Bdd3",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x0bbf28e9a841a1cc788f6a361b17ca072d0ea3098a1e5df1c3922d06719579ff",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xc1da1b73d7f01e7ddd54b3766cf7fcd644395ad14f70aa706ec5384c59e76692",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x137dDB47Ee24EaA998a535Ab00378d6BFa84F893",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xc8cf45412be4268bef8f76a8b0d60971c6e57ab57919083b8e9f12ba72adeeb6",
       "inverse": false
     },
     {
@@ -1904,81 +458,9 @@
     {
       "kind": "Pyth",
       "chainId": 1,
-      "base": "0x046EeE2cc3188071C02BfC1745A6b17c656e3f3d",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x2f2d17abbc1e781bd87b4a5d52c8b2856886f5c482fa3593cebf6795040ab0b6",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xab7347771135fc733f8f38db462ba085ed3309955f42554a14fa13e855ac0e2f",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xB4EFd85c19999D84251304bDA99E90B92300Bd93",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x24f94ac0fd8638e3fc41aab2e4df933e63f763351b640bf336a6ec70651c4503",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x8762db106B2c2A0bccB3A80d1Ed41273552616E8",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xfb7565b77267ba3f6ef770bed5d7f9b22b8542db676dbd9b934a2fcf945f4371",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x17e349391a4d8362706ec4126c2fa42047601cb71c1063e38ca305fab9b0ec4d",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x3845badAde8e6dFF049820680d1F14bD3903a5d0",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xcb7a1d45139117f8d3da0a4b67264579aa905e3b124efede272634f094e1e9d1",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xac3E018457B222d93114458476f3E3416Abbe38F",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xb2bb466ff5386a63c18aa7c3bc953cb540c755e2aa99dafb13bc4c177692bed0",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
       "base": "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0xf0d57deca57b3da2fe63a493f4c25925fdfd8edf834b20f93e1f84dbd1504d4a",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x39d020f60982ed892abbcd4a06a276a9f9b7bfbce003204c110b6e488f502da3",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x090185f2135308BaD17527004364eBcC2D37e5F6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x1dcf38b0206d27849b0fcb8d2df21aff4f95873cce223f49d7c1ea3c5145ec63",
       "inverse": false
     },
     {
@@ -2000,97 +482,9 @@
     {
       "kind": "Pyth",
       "chainId": 1,
-      "base": "0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x008546b175392b878c5c7ff0b6327b1cb12669be012fc2935c09a16fc8f6c58f",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x7122985656e38BDC0302Db86685bb972b145bD3C",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4dcc2fb96fb89a802ef9712f6bd2246d3607cf95ca5540cb24490d37003f8c46",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x26e4f737fde0263a9eea10ae63ac36dcedab2aaf629261a994e1eeb6ee0afe53",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xf951E335afb289353dc249e82926178EaC7DEd78",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x2fd8f34e9e6cb5c1a757e1aeb919136da3ae6d0d2243b2ad93d661e590578cd1",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x8CE9137d39326AD0cD6491fb5CC0CbA0e089b6A9",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x13b82e2a3f97f39504638b45aeab690ab47fd975f9a2e689cac3c77089f26f4d",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x8dAEBADE922dF735c38C80C7eBD708Af50815fAa",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x56a3121958b01f99fdc4e1fd01e81050602c7ace3a571918bb55c6a96657cca9",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x582d872A1B094FC48F5DE31D3B73F2D9bE47def1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x8963217838ab4cf5cadc172203c1f0b763fbaa45f346d8ee50ba994bbcac3026",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x0000000000085d4780B73119b644AE5ecd22b376",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x433faaa801ecdb6618e3897177a118b273a8e18cc3ff545aadfc207d58d028f7",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x04Fa0d235C4abf4BcF4787aF4CF447DE572eF828",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x4b78d251770732f6304b1f41e9bebaabc3b256985ef18988f6de8d6562dd254c",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x78d185a741d07edb3412b09008b7c5cfb9bbbd7d568bf00ba737b456ba171501",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
       "base": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x0C10bF8FcB7Bf5412187A595ab97a3609160b5c6",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x6d20210495d6518787b72e4ad06bc4df21e68d89a802cf6bced2fca6c29652a6",
       "inverse": false
     },
     {
@@ -2104,33 +498,9 @@
     {
       "kind": "Pyth",
       "chainId": 1,
-      "base": "0x59D9356E565Ab3A36dD77763Fc0d87fEaf85508C",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xa6a0dfa49b6b3a93510658245618099f5e842514970f596cf64fad9e0d658193",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x8E870D67F660D95d5be530380D0eC0bd388289E1",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xa6c8eca9aea31d6bb81fd6576638f30692d4afaa73237c097c193477aa5003b3",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
       "base": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0x2b89b9dc8fdf9f34709a5b106b472f0f39bb6ca9ce04b0fd7f2e971688e2e53b",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x96F6eF951840721AdBF46Ac996b59E0235CB985C",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0xe393449f6aff8a4b6d3e1165a7c9ebec103685f3b41e60db4277b5b6d10e7326",
       "inverse": false
     },
     {
@@ -2155,22 +525,6 @@
       "base": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
       "quote": "0x0000000000000000000000000000000000000348",
       "feedId": "0x6df640f3b8963d8f8358f791f352b8364513f6ab1cca5ed3f1f7b5448980e784",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x425f4b198ab2504936886c1e93511bb6720fbcf2045a4f3c0723bb213846022f",
-      "inverse": false
-    },
-    {
-      "kind": "Pyth",
-      "chainId": 1,
-      "base": "0xE41d2489571d322189246DaFA5ebDe1F4699F498",
-      "quote": "0x0000000000000000000000000000000000000348",
-      "feedId": "0x7d17b9fe4ea7103be16b6836984fabbc889386d700ca5e5b3d34b7f92e449268",
       "inverse": false
     },
     {

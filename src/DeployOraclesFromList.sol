@@ -70,7 +70,7 @@ contract DeployOraclesFromList is DeployOracles {
         setUpDeployer(useMnemonic);
 
         string memory root = vm.projectRoot();
-        string memory oracleListPath = "/data/oracleList.json";
+        string memory oracleListPath = "/data/oracleListSmall.json";
         string memory path = string.concat(root, oracleListPath);
         string memory json = vm.readFile(path);
 
