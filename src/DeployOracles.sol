@@ -16,6 +16,7 @@ import {PythOracle} from "euler-price-oracle/adapter/pyth/PythOracle.sol";
 import {EulerRouter} from "euler-price-oracle/EulerRouter.sol";
 import {RedstoneCoreOracle} from "euler-price-oracle/adapter/redstone/RedstoneCoreOracle.sol";
 import {AdapterRegistry} from "evk-periphery/OracleFactory/AdapterRegistry.sol";
+import {EulerRouterFactory} from "evk-periphery/OracleFactory/EulerRouterFactory.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
 contract DeployOracles is Script, Test {
@@ -25,6 +26,7 @@ contract DeployOracles is Script, Test {
     string constant outputKey = "data";
     string internal resultAll = "";
     address internal deployer;
+    EulerRouterFactory internal routerFactory;
 
     function run() public {
         execute(true);
@@ -32,6 +34,8 @@ contract DeployOracles is Script, Test {
 
     function execute(bool useMnemonic) public virtual {
         setUpDeployer(useMnemonic);
+
+        deployRouterFactory();
 
         ChainlinkOracle chainlink_WETH_USD = deployChainlinkOracle(WETH, USD, CHAINLINK_ETH_USD_FEED, 24 hours);
         ChronicleOracle chronicle_BTC_USD = deployChronicleOracle(WBTC, USD, CHRONICLE_BTC_USD_FEED, 24 hours);
@@ -69,6 +73,36 @@ contract DeployOracles is Script, Test {
         configureAdapterRegistry(adapterRegistry, bases, quotes, oracles);
 
         writeDeploymentResult();
+    }
+
+    function deployRouterFactory() internal {
+        if (address(routerFactory) != address(0)) {
+            revert("EulerRouterFactory already deployed.");
+        }
+        
+        routerFactory = new EulerRouterFactory();
+
+        string memory data = "eulerRouterFactory";
+        string memory result = vm.serializeAddress(data, "address", address(routerFactory));
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed EulerRouterFactory (%s)", address(routerFactory));
+    }
+
+    function deployRouter() internal returns (EulerRouter) {
+        if (address(routerFactory) == address(0)) {
+            revert("EulerRouterFactory not deployed. Deploy the factory first before deploying a router.");
+        }
+
+        EulerRouter router = EulerRouter(routerFactory.deploy(deployer));
+
+        string memory data = vm.toString(address(router));
+        vm.serializeString(data, "name", router.name());
+        vm.serializeAddress(data, "address", address(router));
+        vm.serializeAddress(data, "fallbackOracle", router.fallbackOracle());
+        string memory result = vm.serializeAddress(data, "governor", router.governor());
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed EulerRouter (%s)", address(router));
+        return router;
     }
 
     function deployChainlinkOracle(address base, address quote, address feed, uint256 maxStaleness)
@@ -165,19 +199,6 @@ contract DeployOracles is Script, Test {
             "[DeployOracles] Deployed RedstoneCoreOracle (%s) for feedId %s", address(oracle), vm.toString(feedId)
         );
         return oracle;
-    }
-
-    function deployRouter() internal returns (EulerRouter) {
-        EulerRouter router = new EulerRouter(deployer);
-
-        string memory data = vm.toString(address(router));
-        vm.serializeString(data, "name", router.name());
-        vm.serializeAddress(data, "address", address(router));
-        vm.serializeAddress(data, "fallbackOracle", router.fallbackOracle());
-        string memory result = vm.serializeAddress(data, "governor", router.governor());
-        resultAll = vm.serializeString(outputKey, data, result);
-        console2.log("[DeployOracles] Deployed EulerRouter (%s)", address(router));
-        return router;
     }
 
     function deployAdapterRegistry() internal returns (AdapterRegistry) {

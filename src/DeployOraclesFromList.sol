@@ -68,6 +68,7 @@ contract DeployOraclesFromList is DeployOracles {
 
     function execute(bool useMnemonic) public override {
         setUpDeployer(useMnemonic);
+        deployRouterFactory();
 
         string memory root = vm.projectRoot();
         string memory oracleListPath = "/data/oracleListSmall.json";
