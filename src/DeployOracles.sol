@@ -14,6 +14,7 @@ import {ChronicleOracle} from "euler-price-oracle/adapter/chronicle/ChronicleOra
 import {LidoOracle} from "euler-price-oracle/adapter/lido/LidoOracle.sol";
 import {PythOracle} from "euler-price-oracle/adapter/pyth/PythOracle.sol";
 import {EulerRouter} from "euler-price-oracle/EulerRouter.sol";
+import {EulerRouterFactory} from "evk-periphery/OracleFactory/EulerRouterFactory.sol";
 import {RedstoneCoreOracle} from "euler-price-oracle/adapter/redstone/RedstoneCoreOracle.sol";
 import {AdapterRegistry} from "evk-periphery/OracleFactory/AdapterRegistry.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
@@ -25,6 +26,7 @@ contract DeployOracles is Script, Test {
     string constant outputKey = "data";
     string internal resultAll = "";
     address internal deployer;
+    EulerRouterFactory internal routerFactory;
 
     function run() public {
         execute(true);
@@ -61,7 +63,8 @@ contract DeployOracles is Script, Test {
         bases[4] = CRV;
         quotes[4] = USD;
         oracles[4] = address(redstone_CRV_USD);
-
+        
+        routerFactory = new EulerRouterFactory();
         EulerRouter router = deployRouter();
         configureRouter(router, bases, quotes, oracles, new address[](0));
 
@@ -168,7 +171,7 @@ contract DeployOracles is Script, Test {
     }
 
     function deployRouter() internal returns (EulerRouter) {
-        EulerRouter router = new EulerRouter(deployer);
+        EulerRouter router = EulerRouter(routerFactory.deploy(deployer));
 
         string memory data = vm.toString(address(router));
         vm.serializeString(data, "name", router.name());
