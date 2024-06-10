@@ -1,9 +1,9 @@
 pragma solidity ^0.8.0;
 
 import "forge-std/StdJson.sol";
+import {console2} from "forge-std/console2.sol";
 import {Script} from "forge-std/Script.sol";
 import {Test} from "forge-std/Test.sol";
-import {console2} from "forge-std/console2.sol";
 import {WETH, USD, CRV, ENS, WBTC, WSTETH, STETH} from "euler-price-oracle-test/utils/EthereumAddresses.sol";
 import {CHAINLINK_ETH_USD_FEED} from "euler-price-oracle-test/adapter/chainlink/ChainlinkAddresses.sol";
 import {CHRONICLE_BTC_USD_FEED} from "euler-price-oracle-test/adapter/chronicle/ChronicleAddresses.sol";
@@ -15,6 +15,7 @@ import {LidoOracle} from "euler-price-oracle/adapter/lido/LidoOracle.sol";
 import {PythOracle} from "euler-price-oracle/adapter/pyth/PythOracle.sol";
 import {EulerRouter} from "euler-price-oracle/EulerRouter.sol";
 import {RedstoneCoreOracle} from "euler-price-oracle/adapter/redstone/RedstoneCoreOracle.sol";
+import {AdapterRegistry} from "evk-periphery/OracleFactory/AdapterRegistry.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
 contract DeployOracles is Script, Test {
@@ -22,158 +23,14 @@ contract DeployOracles is Script, Test {
     using Strings for uint256;
 
     string constant outputKey = "data";
-    string resultAll = "";
-    address deployer;
+    string internal resultAll = "";
+    address internal deployer;
 
     function run() public {
         execute(true);
     }
 
-    function deployChainlinkOracle(address base, address quote, address feed, uint256 maxStaleness)
-        internal
-        returns (ChainlinkOracle)
-    {
-        ChainlinkOracle oracle = new ChainlinkOracle(base, quote, feed, maxStaleness);
-
-        string memory data = vm.toString(address(oracle));
-        vm.serializeString(data, "name", oracle.name());
-        vm.serializeAddress(data, "address", address(oracle));
-        vm.serializeAddress(data, "base", oracle.base());
-        vm.serializeAddress(data, "quote", oracle.quote());
-        vm.serializeAddress(data, "feed", oracle.feed());
-        string memory result = vm.serializeUint(data, "maxStaleness", oracle.maxStaleness());
-        resultAll = vm.serializeString(outputKey, data, result);
-        return oracle;
-    }
-
-    function deployChronicleOracle(address base, address quote, address feed, uint256 maxStaleness)
-        internal
-        returns (ChronicleOracle)
-    {
-        ChronicleOracle oracle = new ChronicleOracle(base, quote, feed, maxStaleness);
-
-        string memory data = vm.toString(address(oracle));
-        vm.serializeString(data, "name", oracle.name());
-        vm.serializeAddress(data, "address", address(oracle));
-        vm.serializeAddress(data, "base", oracle.base());
-        vm.serializeAddress(data, "quote", oracle.quote());
-        vm.serializeAddress(data, "feed", oracle.feed());
-        string memory result = vm.serializeUint(data, "maxStaleness", oracle.maxStaleness());
-        resultAll = vm.serializeString(outputKey, data, result);
-        return oracle;
-    }
-
-    function deployLidoOracle() internal returns (LidoOracle) {
-        LidoOracle oracle = new LidoOracle();
-
-        string memory data = vm.toString(address(oracle));
-        vm.serializeString(data, "name", oracle.name());
-        vm.serializeAddress(data, "base", oracle.WSTETH());
-        vm.serializeAddress(data, "quote", oracle.STETH());
-        string memory result = vm.serializeAddress(data, "address", address(oracle));
-        resultAll = vm.serializeString(outputKey, data, result);
-        return oracle;
-    }
-
-    function deployPythOracle(
-        address pyth,
-        address base,
-        address quote,
-        bytes32 feedId,
-        uint256 maxStaleness,
-        uint256 maxConfWidth
-    ) internal returns (PythOracle) {
-        PythOracle oracle = new PythOracle(pyth, base, quote, feedId, maxStaleness, maxConfWidth);
-
-        string memory data = vm.toString(address(oracle));
-        vm.serializeString(data, "name", oracle.name());
-        vm.serializeAddress(data, "address", address(oracle));
-        vm.serializeAddress(data, "base", oracle.base());
-        vm.serializeAddress(data, "quote", oracle.quote());
-        vm.serializeBytes32(data, "feedId", oracle.feedId());
-        vm.serializeUint(data, "maxStaleness", oracle.maxStaleness());
-        string memory result = vm.serializeUint(data, "maxConfWidth", oracle.maxConfWidth());
-        resultAll = vm.serializeString(outputKey, data, result);
-        return oracle;
-    }
-
-    function deployRedstoneCoreOracle(
-        address base,
-        address quote,
-        bytes32 feedId,
-        uint8 feedDecimals,
-        uint256 maxStaleness
-    ) internal returns (RedstoneCoreOracle) {
-        RedstoneCoreOracle oracle = new RedstoneCoreOracle(base, quote, feedId, feedDecimals, maxStaleness);
-
-        string memory data = vm.toString(address(oracle));
-        vm.serializeString(data, "name", oracle.name());
-        vm.serializeAddress(data, "address", address(oracle));
-        vm.serializeAddress(data, "base", oracle.base());
-        vm.serializeAddress(data, "quote", oracle.quote());
-        vm.serializeBytes32(data, "feedId", oracle.feedId());
-        vm.serializeUint(data, "feedId", oracle.feedDecimals());
-        string memory result = vm.serializeUint(data, "maxStaleness", oracle.maxStaleness());
-        resultAll = vm.serializeString(outputKey, data, result);
-        return oracle;
-    }
-
-    function deployRouter() internal returns (EulerRouter) {
-        EulerRouter router = new EulerRouter(deployer);
-
-        string memory data = vm.toString(address(router));
-        vm.serializeString(data, "name", router.name());
-        vm.serializeAddress(data, "address", address(router));
-        vm.serializeAddress(data, "fallbackOracle", router.fallbackOracle());
-        string memory result = vm.serializeAddress(data, "governor", router.governor());
-        resultAll = vm.serializeString(outputKey, data, result);
-        return router;
-    }
-
-    function configureRouter(
-        EulerRouter router,
-        address[] memory bases,
-        address[] memory quotes,
-        address[] memory oracles,
-        address[] memory resolvedVaults
-    ) internal {
-        require(bases.length == quotes.length && quotes.length == oracles.length);
-
-        string memory data = vm.toString(address(router));
-        string memory result = vm.serializeAddress(data, "resolvedVaults", resolvedVaults);
-
-        uint256 length = bases.length;
-        string memory configResult = "innerConfigs";
-        string memory innerResult = "innerConfigResult";
-        for (uint256 i = 0; i < length; ++i) {
-            string memory key = vm.toString(oracles[i]);
-            string memory object = "configObject";
-            vm.serializeAddress(object, "base", bases[i]);
-            vm.serializeAddress(object, "quote", quotes[i]);
-            string memory configData = vm.serializeAddress(object, "oracle", oracles[i]);
-            router.govSetConfig(bases[i], quotes[i], oracles[i]);
-            innerResult = vm.serializeString(configResult, key, configData);
-        }
-
-        result = vm.serializeString(data, "configs", innerResult);
-
-        for (uint256 i = 0; i < resolvedVaults.length; ++i) {
-            router.govSetResolvedVault(resolvedVaults[i], true);
-        }
-
-        resultAll = vm.serializeString(outputKey, data, result);
-    }
-
-    function setUpDeployer(bool useMnemonic) internal {
-        deployer = address(this);
-        if (useMnemonic) {
-            uint256 deployerPrivateKey = vm.deriveKey(vm.envString("MNEMONIC"), 0);
-            deployer = vm.addr(deployerPrivateKey);
-            vm.startBroadcast(deployerPrivateKey);
-        }
-    }
-
-    function execute(bool useMnemonic) public {
+    function execute(bool useMnemonic) public virtual {
         setUpDeployer(useMnemonic);
 
         ChainlinkOracle chainlink_WETH_USD = deployChainlinkOracle(WETH, USD, CHAINLINK_ETH_USD_FEED, 24 hours);
@@ -206,9 +63,223 @@ contract DeployOracles is Script, Test {
         oracles[4] = address(redstone_CRV_USD);
 
         EulerRouter router = deployRouter();
-
         configureRouter(router, bases, quotes, oracles, new address[](0));
 
+        AdapterRegistry adapterRegistry = deployAdapterRegistry();
+        configureAdapterRegistry(adapterRegistry, bases, quotes, oracles);
+
+        writeDeploymentResult();
+    }
+
+    function deployChainlinkOracle(address base, address quote, address feed, uint256 maxStaleness)
+        internal
+        returns (ChainlinkOracle)
+    {
+        ChainlinkOracle oracle = new ChainlinkOracle(base, quote, feed, maxStaleness);
+
+        string memory data = vm.toString(address(oracle));
+        vm.serializeString(data, "name", oracle.name());
+        vm.serializeAddress(data, "address", address(oracle));
+        vm.serializeAddress(data, "base", base);
+        vm.serializeAddress(data, "quote", quote);
+        vm.serializeAddress(data, "feed", feed);
+        string memory result = vm.serializeUint(data, "maxStaleness", maxStaleness);
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed ChainlinkOracle (%s) for feed %s", address(oracle), feed);
+        return oracle;
+    }
+
+    function deployChronicleOracle(address base, address quote, address feed, uint256 maxStaleness)
+        internal
+        returns (ChronicleOracle)
+    {
+        ChronicleOracle oracle = new ChronicleOracle(base, quote, feed, maxStaleness);
+
+        string memory data = vm.toString(address(oracle));
+        vm.serializeString(data, "name", oracle.name());
+        vm.serializeAddress(data, "address", address(oracle));
+        vm.serializeAddress(data, "base", base);
+        vm.serializeAddress(data, "quote", quote);
+        vm.serializeAddress(data, "feed", feed);
+        string memory result = vm.serializeUint(data, "maxStaleness", oracle.maxStaleness());
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed ChronicleOracle (%s) for feed %s", address(oracle), feed);
+        return oracle;
+    }
+
+    function deployLidoOracle() internal returns (LidoOracle) {
+        LidoOracle oracle = new LidoOracle();
+
+        string memory data = vm.toString(address(oracle));
+        vm.serializeString(data, "name", oracle.name());
+        vm.serializeAddress(data, "base", oracle.WSTETH());
+        vm.serializeAddress(data, "quote", oracle.STETH());
+        string memory result = vm.serializeAddress(data, "address", address(oracle));
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed LidoOracle (%s)", address(oracle));
+        return oracle;
+    }
+
+    function deployPythOracle(
+        address pyth,
+        address base,
+        address quote,
+        bytes32 feedId,
+        uint256 maxStaleness,
+        uint256 maxConfWidth
+    ) internal returns (PythOracle) {
+        PythOracle oracle = new PythOracle(pyth, base, quote, feedId, maxStaleness, maxConfWidth);
+
+        string memory data = vm.toString(address(oracle));
+        vm.serializeString(data, "name", oracle.name());
+        vm.serializeAddress(data, "address", address(oracle));
+        vm.serializeAddress(data, "base", base);
+        vm.serializeAddress(data, "quote", quote);
+        vm.serializeBytes32(data, "feedId", feedId);
+        vm.serializeUint(data, "maxStaleness", maxStaleness);
+        string memory result = vm.serializeUint(data, "maxConfWidth", maxConfWidth);
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed PythOracle (%s) for feedId %s", address(oracle), vm.toString(feedId));
+        return oracle;
+    }
+
+    function deployRedstoneCoreOracle(
+        address base,
+        address quote,
+        bytes32 feedId,
+        uint8 feedDecimals,
+        uint256 maxStaleness
+    ) internal returns (RedstoneCoreOracle) {
+        RedstoneCoreOracle oracle = new RedstoneCoreOracle(base, quote, feedId, feedDecimals, maxStaleness);
+
+        string memory data = vm.toString(address(oracle));
+        vm.serializeString(data, "name", oracle.name());
+        vm.serializeAddress(data, "address", address(oracle));
+        vm.serializeAddress(data, "base", base);
+        vm.serializeAddress(data, "quote", quote);
+        vm.serializeBytes32(data, "feedId", feedId);
+        vm.serializeUint(data, "feedId", feedDecimals);
+        string memory result = vm.serializeUint(data, "maxStaleness", maxStaleness);
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log(
+            "[DeployOracles] Deployed RedstoneCoreOracle (%s) for feedId %s", address(oracle), vm.toString(feedId)
+        );
+        return oracle;
+    }
+
+    function deployRouter() internal returns (EulerRouter) {
+        EulerRouter router = new EulerRouter(deployer);
+
+        string memory data = vm.toString(address(router));
+        vm.serializeString(data, "name", router.name());
+        vm.serializeAddress(data, "address", address(router));
+        vm.serializeAddress(data, "fallbackOracle", router.fallbackOracle());
+        string memory result = vm.serializeAddress(data, "governor", router.governor());
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed EulerRouter (%s)", address(router));
+        return router;
+    }
+
+    function deployAdapterRegistry() internal returns (AdapterRegistry) {
+        AdapterRegistry registry = new AdapterRegistry(deployer);
+
+        string memory data = "adapterRegistry";
+        string memory result = vm.serializeAddress(data, "address", address(registry));
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Deployed AdapterRegistry (%s)", address(registry));
+        return registry;
+    }
+
+    function configureRouter(
+        EulerRouter router,
+        address[] memory bases,
+        address[] memory quotes,
+        address[] memory oracles,
+        address[] memory resolvedVaults
+    ) internal {
+        require(bases.length == quotes.length && quotes.length == oracles.length);
+
+        string memory data = vm.toString(address(router));
+        string memory result = vm.serializeAddress(data, "resolvedVaults", resolvedVaults);
+
+        uint256 length = bases.length;
+        string memory configResult = "innerConfigs";
+        string memory innerResult = "innerConfigResult";
+        for (uint256 i = 0; i < length; ++i) {
+            if (router.getConfiguredOracle(bases[i], quotes[i]) != address(0)) {
+                console2.log(
+                    "[DeployOracles] EulerRouter config for base=%s quote=%s already exists. Skipping oracle %s.",
+                    bases[i],
+                    quotes[i],
+                    oracles[i]
+                );
+                continue;
+            }
+
+            string memory key = vm.toString(oracles[i]);
+            string memory object = "configObject";
+            vm.serializeAddress(object, "base", bases[i]);
+            vm.serializeAddress(object, "quote", quotes[i]);
+            string memory configData = vm.serializeAddress(object, "oracle", oracles[i]);
+            router.govSetConfig(bases[i], quotes[i], oracles[i]);
+            innerResult = vm.serializeString(configResult, key, configData);
+        }
+
+        result = vm.serializeString(data, "configs", innerResult);
+
+        for (uint256 i = 0; i < resolvedVaults.length; ++i) {
+            router.govSetResolvedVault(resolvedVaults[i], true);
+        }
+
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log(
+            "[DeployOracles] Added %s oracles and %s vaults to EulerRouter (%s)",
+            length,
+            resolvedVaults.length,
+            address(router)
+        );
+    }
+
+    function configureAdapterRegistry(
+        AdapterRegistry registry,
+        address[] memory bases,
+        address[] memory quotes,
+        address[] memory adapters
+    ) internal {
+        require(bases.length == quotes.length && quotes.length == adapters.length);
+
+        string memory data = "adapterRegistry";
+
+        uint256 length = bases.length;
+        string memory configResult = "innerConfigs";
+        string memory innerResult = "innerConfigResult";
+        for (uint256 i = 0; i < length; ++i) {
+            string memory key = vm.toString(adapters[i]);
+            string memory object = "configObject";
+            vm.serializeAddress(object, "base", bases[i]);
+            vm.serializeAddress(object, "quote", quotes[i]);
+            vm.serializeUint(object, "addedAt", block.timestamp);
+            string memory configData = vm.serializeAddress(object, "oracle", adapters[i]);
+            registry.addAdapter(adapters[i], bases[i], quotes[i]);
+            innerResult = vm.serializeString(configResult, key, configData);
+        }
+
+        string memory result = vm.serializeString(data, "configs", innerResult);
+
+        resultAll = vm.serializeString(outputKey, data, result);
+        console2.log("[DeployOracles] Added %s adapters to AdapterRegistry (%s)", length, address(registry));
+    }
+
+    function setUpDeployer(bool useMnemonic) internal {
+        deployer = address(this);
+        if (useMnemonic) {
+            uint256 deployerPrivateKey = vm.deriveKey(vm.envString("MNEMONIC"), 0);
+            deployer = vm.addr(deployerPrivateKey);
+            vm.startBroadcast(deployerPrivateKey);
+        }
+    }
+
+    function writeDeploymentResult() internal {
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
 
