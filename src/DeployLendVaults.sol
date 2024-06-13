@@ -62,6 +62,7 @@ struct VaultData {
     address rewardStreams;
     address vaultLens;
     address accountLens;
+    address oracle; // keeping for backwards compatibility
     address router;
     address routerFactory;
 }
@@ -154,6 +155,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom, DeployOracles {
             address(rewardStreams),
             address(vaultLens),
             address(accountLens),
+            address(router), // keeping for backwards compatibility
             address(router),
             address(routerFactory)
         );
@@ -213,8 +215,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom, DeployOracles {
     }
 
     function serializeVaults(VaultData memory _vaultData) public returns (string memory) {
-        string memory outputKey = "data";
-        string memory serializedResultAll = "";
+        string memory outputKey = "dataDeployLendVaults";
+        string memory serializedResultAll = "serializeDeployLendVaults";
         for (uint256 i = 0; i < _vaultData.vaults.length; i++) {
             string memory vaultData = addressToString(_vaultData.vaults[i]);
             IEVault vault = IEVault(_vaultData.vaults[i]);
@@ -230,6 +232,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom, DeployOracles {
             vm.serializeAddress(vaultData, "rewardStreams", _vaultData.rewardStreams);
             vm.serializeAddress(vaultData, "vaultLens", _vaultData.vaultLens);
             vm.serializeAddress(vaultData, "accountLens", _vaultData.accountLens);
+            vm.serializeAddress(vaultData, "oracle", _vaultData.oracle);
             vm.serializeAddress(vaultData, "router", _vaultData.router);
             string memory result = vm.serializeAddress(vaultData, "routerFactory", _vaultData.routerFactory);
             serializedResultAll = vm.serializeString(outputKey, vaultData, result);
