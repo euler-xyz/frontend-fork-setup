@@ -12,7 +12,7 @@ contract DeploySwapper is Script, Test {
     using Strings for uint256;
 
     address constant UNISWAP_V3_ROUTER_V2 = 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45;
-    address constant ONE_INCH_AGGREGATOR = 0x1111111254EEB25477B68fb85Ed929f73A960582;
+    address constant ONE_INCH_AGGREGATOR_V6 = 0x111111125421cA6dc452d289314280a0f8842A65;
     address constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
     address constant UNISWAP_V3_ROUTER = 0xE592427A0AEce92De3Edee1F18E0157C05861564;
 
@@ -27,14 +27,14 @@ contract DeploySwapper is Script, Test {
             deployer = vm.addr(deployerPrivateKey);
             vm.startBroadcast(deployerPrivateKey);
         }
-        Swapper swapper = new Swapper(ONE_INCH_AGGREGATOR, UNISWAP_V2_ROUTER, UNISWAP_V3_ROUTER, UNISWAP_V3_ROUTER_V2);
+        Swapper swapper = new Swapper(ONE_INCH_AGGREGATOR_V6, UNISWAP_V2_ROUTER, UNISWAP_V3_ROUTER, UNISWAP_V3_ROUTER_V2);
         SwapVerifier swapVerifier = new SwapVerifier();
 
         string memory outputKey = "data";
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
         vm.serializeAddress(outputKey, "swapper", address(swapper));
-        vm.serializeAddress(outputKey, "oneInchAggregator", ONE_INCH_AGGREGATOR);
+        vm.serializeAddress(outputKey, "oneInchAggregator", ONE_INCH_AGGREGATOR_V6);
         vm.serializeAddress(outputKey, "uniswapV2Router", UNISWAP_V2_ROUTER);
         vm.serializeAddress(outputKey, "uniswapV3Router", UNISWAP_V3_ROUTER);
         vm.serializeAddress(outputKey, "uniswapV3RouterV2", UNISWAP_V3_ROUTER_V2);
