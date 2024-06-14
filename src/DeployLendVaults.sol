@@ -9,7 +9,7 @@ import "forge-std/console2.sol";
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
-import {WhitelistPerspective} from "evk-periphery/Perspectives/immutable/ungoverned/whitelist/WhitelistPerspective.sol";
+import {EulerFactoryPerspective} from "evk-periphery/Perspectives/deployed/EulerFactoryPerspective.sol";
 import {ProtocolConfig} from "euler-vault-kit/ProtocolConfig/ProtocolConfig.sol";
 import {GenericFactory} from "euler-vault-kit/GenericFactory/GenericFactory.sol";
 import {Base} from "euler-vault-kit/EVault/shared/Base.sol";
@@ -31,6 +31,7 @@ import {VaultInfo} from "euler-vault-kit/lens/LensTypes.sol";
 import {IRMTestDefault} from "euler-vault-kit-test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "euler-vault-kit-test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
+import {MockPerspective} from "./mocks/MockPerspective.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 import {SafeERC20} from "openzeppelin-contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC20} from "openzeppelin-contracts/token/ERC20/IERC20.sol";
@@ -41,27 +42,27 @@ import {IERC20} from "openzeppelin-contracts/token/ERC20/IERC20.sol";
 // That means that in order to decode the JSON object correctly, you will need to define attributes of the
 // struct with types that correspond to the values of the alphabetical order of the keys of the JSON.
 
-struct TokenInfo {
-    address addressInfo;
-    uint256 chainId;
-    uint256 decimals;
-    string logoURI;
-    string name;
-    string symbol;
-}
+    struct TokenInfo {
+        address addressInfo;
+        uint256 chainId;
+        uint256 decimals;
+        string logoURI;
+        string name;
+        string symbol;
+    }
 
-struct VaultData {
-    address[] vaults;
-    address unitOfAccount;
-    address interestRateModel;
-    address evc;
-    address whitelistPerspective;
-    address factory;
-    address rewardStreams;
-    address vaultLens;
-    address accountLens;
-    address oracle;
-}
+    struct VaultData {
+        address[] vaults;
+        address unitOfAccount;
+        address interestRateModel;
+        address evc;
+        address factoryPerspective;
+        address factory;
+        address rewardStreams;
+        address vaultLens;
+        address accountLens;
+        address oracle;
+    }
 
 /// @title Deployment script
 /// @notice This script is used for deploying a couple vaults along with supporting contracts for testing purposes
@@ -125,7 +126,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vaults[i] = address(vault);
         }
 
-        WhitelistPerspective whitelistPerspective = new WhitelistPerspective(vaults);
+        EulerFactoryPerspective factoryPerspective = new EulerFactoryPerspective(address(factory));
 
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
@@ -155,7 +156,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             unitOfAccount,
             address(interestRateModel),
             address(evc),
-            address(whitelistPerspective),
+            address(factoryPerspective),
             address(factory),
             address(rewardStreams),
             address(vaultLens),
@@ -173,7 +174,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
     }
 
     function setupRewardStreams(address vault, TrackingRewardStreams rewardStreams, TokenInfo[] memory tokenList)
-        private
+    private
     {
         uint256 randomAmountOfTokenRewards = randomNumber(1, 5);
         uint256[] memory indexesUsed = new uint256[](randomAmountOfTokenRewards);
@@ -230,7 +231,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vm.serializeAddress(vaultData, "unitOfAccount", _vaultData.unitOfAccount);
             vm.serializeAddress(vaultData, "interestRateModel", _vaultData.interestRateModel);
             vm.serializeAddress(vaultData, "evc", _vaultData.evc);
-            vm.serializeAddress(vaultData, "whitelistPerspective", _vaultData.whitelistPerspective);
+            vm.serializeAddress(vaultData, "factoryPerspective", _vaultData.factoryPerspective);
             vm.serializeAddress(vaultData, "genericFactory", _vaultData.factory);
             vm.serializeAddress(vaultData, "rewardStreams", _vaultData.rewardStreams);
             vm.serializeAddress(vaultData, "vaultLens", _vaultData.vaultLens);
@@ -260,16 +261,16 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
     }
 
     function deployStructure(address deployer)
-        public
-        returns (
-            GenericFactory factory,
-            MockPriceOracle mockPriceOracle,
-            IRMTestDefault interestRateModel,
-            EthereumVaultConnector evc,
-            TrackingRewardStreams rewardStreams,
-            VaultLens vaultLens,
-            AccountLens accountLens
-        )
+    public
+    returns (
+        GenericFactory factory,
+        MockPriceOracle mockPriceOracle,
+        IRMTestDefault interestRateModel,
+        EthereumVaultConnector evc,
+        TrackingRewardStreams rewardStreams,
+        VaultLens vaultLens,
+        AccountLens accountLens
+    )
     {
         // deploy the EVC
         evc = new EthereumVaultConnector();
@@ -285,7 +286,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
 
         // define the integrations struct
         Base.Integrations memory integrations =
-            Base.Integrations(address(evc), protocolConfig, sequenceRegistry, address(rewardStreams), PERMIT2_ADDRESS);
+                            Base.Integrations(address(evc), protocolConfig, sequenceRegistry, address(rewardStreams), PERMIT2_ADDRESS);
 
         // deploy the EVault modules
         Dispatch.DeployedModules memory modules = Dispatch.DeployedModules({
