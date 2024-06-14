@@ -10,13 +10,12 @@
 [submodule "lib/reward-streams"]
 	path = lib/reward-streams
 	url = https://github.com/euler-xyz/reward-streams
-[submodule "lib/euler-vault-kit"]
-	path = lib/euler-vault-kit
-	url = https://github.com/euler-xyz/euler-vault-kit
-	branch = lens-2
 [submodule "lib/euler-price-oracle"]
 	path = lib/euler-price-oracle
 	url = https://github.com/euler-xyz/euler-price-oracle
 [submodule "lib/evk-periphery"]
 	path = lib/evk-periphery
 	url = https://github.com/euler-xyz/evk-periphery
+[submodule "lib/euler-vault-kit"]
+	path = lib/euler-vault-kit
+	url = https://github.com/euler-xyz/euler-vault-kit

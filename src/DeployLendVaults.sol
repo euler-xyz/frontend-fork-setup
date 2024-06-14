@@ -25,9 +25,9 @@ import {Governance} from "euler-vault-kit/EVault/modules/Governance.sol";
 import {Dispatch} from "euler-vault-kit/EVault/Dispatch.sol";
 import {EVault} from "euler-vault-kit/EVault/EVault.sol";
 import {IEVault} from "euler-vault-kit/EVault/IEVault.sol";
-import {AccountLens} from "euler-vault-kit/lens/AccountLens.sol";
-import {VaultLens} from "euler-vault-kit/lens/VaultLens.sol";
-import {VaultInfo} from "euler-vault-kit/lens/LensTypes.sol";
+import {AccountLens} from "evk-periphery/Lens/AccountLens.sol";
+import {VaultLens} from "evk-periphery/Lens/VaultLens.sol";
+import {OracleLens} from "evk-periphery/Lens/OracleLens.sol";
 import {IRMTestDefault} from "euler-vault-kit-test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "euler-vault-kit-test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
@@ -295,7 +295,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         data.interestRateModel = new IRMTestDefault();
 
         // deploy the lenses
-        data.vaultLens = new VaultLens();
+        data.vaultLens = new VaultLens(address(new OracleLens()));
         data.accountLens = new AccountLens();
     }
 
