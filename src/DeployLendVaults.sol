@@ -200,7 +200,7 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         string memory resultAll = "";
         for (uint256 i = 0; i < _deploymentData.factoryPerspectives.length; i++) {
             address[] memory vaults = _deploymentData.factoryPerspectives[i].verifiedArray();
-            for (uint256 j = 0; i < vaults.length; j++) {
+            for (uint256 j = 0; j < vaults.length; j++) {
                 string memory data = addressToString(vaults[j]);
                 IEVault vault = IEVault(vaults[j]);
                 vm.serializeAddress(data, "address", vaults[j]);
