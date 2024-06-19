@@ -9,7 +9,6 @@ import "forge-std/console2.sol";
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
-import {WhitelistPerspective} from "evk-periphery/Perspectives/immutable/ungoverned/whitelist/WhitelistPerspective.sol";
 import {ProtocolConfig} from "euler-vault-kit/ProtocolConfig/ProtocolConfig.sol";
 import {GenericFactory} from "euler-vault-kit/GenericFactory/GenericFactory.sol";
 import {Base} from "euler-vault-kit/EVault/shared/Base.sol";
@@ -55,7 +54,6 @@ struct VaultData {
     address unitOfAccount;
     address interestRateModel;
     address evc;
-    address whitelistPerspective;
     address factory;
     address rewardStreams;
     address vaultLens;
@@ -125,8 +123,6 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vaults[i] = address(vault);
         }
 
-        WhitelistPerspective whitelistPerspective = new WhitelistPerspective(vaults);
-
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
             setupRewardStreams(vaults[i], rewardStreams, tokenList);
@@ -155,7 +151,6 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             unitOfAccount,
             address(interestRateModel),
             address(evc),
-            address(whitelistPerspective),
             address(factory),
             address(rewardStreams),
             address(vaultLens),
@@ -230,7 +225,6 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vm.serializeAddress(vaultData, "unitOfAccount", _vaultData.unitOfAccount);
             vm.serializeAddress(vaultData, "interestRateModel", _vaultData.interestRateModel);
             vm.serializeAddress(vaultData, "evc", _vaultData.evc);
-            vm.serializeAddress(vaultData, "whitelistPerspective", _vaultData.whitelistPerspective);
             vm.serializeAddress(vaultData, "genericFactory", _vaultData.factory);
             vm.serializeAddress(vaultData, "rewardStreams", _vaultData.rewardStreams);
             vm.serializeAddress(vaultData, "vaultLens", _vaultData.vaultLens);

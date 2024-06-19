@@ -64,28 +64,12 @@
     "symbol": "MATIC"
   },
   {
-    "addressInfo": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-    "chainId": 1,
-    "decimals": 18,
-    "logoURI": "https://assets.coingecko.com/coins/images/4713/thumb/matic-token-icon.png?1624446912",
-    "name": "Matic Token",
-    "symbol": "MATIC"
-  },
-  {
     "addressInfo": "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
     "chainId": 1,
     "name": "EthereumNameService",
     "symbol": "ENS",
     "decimals": 18,
     "logoURI": "https://tokens.1inch.io/0xc18360217d8f7ab5e7c516566761ea12ce7f9d72.png"
-  },
-  {
-    "addressInfo": "0xD533a949740bb3306d119CC777fa900bA034cd52",
-    "chainId": 1,
-    "name": "CurveDAOToken",
-    "symbol": "CRV",
-    "decimals": 18,
-    "logoURI": "https://tokens.1inch.io/0xd533a949740bb3306d119cc777fa900ba034cd52.png"
   },
   {
     "addressInfo": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
