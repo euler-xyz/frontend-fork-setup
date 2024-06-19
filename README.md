@@ -157,6 +157,9 @@ We haven't found any matching bytecode for the following contracts: [0x3790ae278
 This may occur when resuming a verification, but the underlying source code or compiler version has changed.
 ```
 
+NOTE:
+If the the matching bytecode are more then the amount of contracts you are deploying, you should do `forge clean` and then `forge build` again.
+
 ## Intended usage
 
 This setup is intended to be used for testing and development purposes.
