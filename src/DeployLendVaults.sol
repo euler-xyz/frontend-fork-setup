@@ -210,8 +210,16 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
                 vm.serializeAddress(data, "unitOfAccount", _deploymentData.unitOfAccount);
                 vm.serializeAddress(data, "interestRateModel", address(_deploymentData.interestRateModel));
                 vm.serializeAddress(data, "evc", address(_deploymentData.evc));
-                vm.serializeAddress(data, "factoryPerspective", address(_deploymentData.factoryPerspectives[i]));
-                vm.serializeAddress(data, "genericFactory", address(_deploymentData.factories[i]));
+                address[] memory factoryPerspectives = new address[](_deploymentData.factoryPerspectives.length);
+                for (uint256 k = 0; k < _deploymentData.factoryPerspectives.length; k++) {
+                    factoryPerspectives[k] = address(_deploymentData.factoryPerspectives[k]);
+                }
+                vm.serializeAddress(data, "factoryPerspective", factoryPerspectives);
+                address[] memory genericFactories = new address[](_deploymentData.factories.length);
+                for (uint256 k = 0; k < _deploymentData.factories.length; k++) {
+                    genericFactories[k] = address(_deploymentData.factories[k]);
+                }
+                vm.serializeAddress(data, "genericFactory", genericFactories);
                 vm.serializeAddress(data, "rewardStreams", address(_deploymentData.rewardStreams));
                 vm.serializeAddress(data, "vaultLens", address(_deploymentData.vaultLens));
                 vm.serializeAddress(data, "accountLens", address(_deploymentData.accountLens));
