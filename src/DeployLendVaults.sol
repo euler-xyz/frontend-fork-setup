@@ -9,6 +9,7 @@ import "forge-std/console2.sol";
 import {FoundryRandom} from "foundry-random/FoundryRandom.sol";
 import {EthereumVaultConnector} from "ethereum-vault-connector/EthereumVaultConnector.sol";
 import {TrackingRewardStreams} from "reward-streams/TrackingRewardStreams.sol";
+import {EulerFactoryPerspective} from "evk-periphery/Perspectives/deployed/EulerFactoryPerspective.sol";
 import {ProtocolConfig} from "euler-vault-kit/ProtocolConfig/ProtocolConfig.sol";
 import {GenericFactory} from "euler-vault-kit/GenericFactory/GenericFactory.sol";
 import {Base} from "euler-vault-kit/EVault/shared/Base.sol";
@@ -24,9 +25,9 @@ import {Governance} from "euler-vault-kit/EVault/modules/Governance.sol";
 import {Dispatch} from "euler-vault-kit/EVault/Dispatch.sol";
 import {EVault} from "euler-vault-kit/EVault/EVault.sol";
 import {IEVault} from "euler-vault-kit/EVault/IEVault.sol";
-import {AccountLens} from "euler-vault-kit/lens/AccountLens.sol";
-import {VaultLens} from "euler-vault-kit/lens/VaultLens.sol";
-import {VaultInfo} from "euler-vault-kit/lens/LensTypes.sol";
+import {AccountLens} from "evk-periphery/Lens/AccountLens.sol";
+import {VaultLens} from "evk-periphery/Lens/VaultLens.sol";
+import {OracleLens} from "evk-periphery/Lens/OracleLens.sol";
 import {IRMTestDefault} from "euler-vault-kit-test/mocks/IRMTestDefault.sol";
 import {TestERC20} from "euler-vault-kit-test/mocks/TestERC20.sol";
 import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
@@ -49,16 +50,16 @@ struct TokenInfo {
     string symbol;
 }
 
-struct VaultData {
-    address[] vaults;
+struct DeploymentData {
+    GenericFactory[] factories;
+    EulerFactoryPerspective[] factoryPerspectives;
     address unitOfAccount;
-    address interestRateModel;
-    address evc;
-    address factory;
-    address rewardStreams;
-    address vaultLens;
-    address accountLens;
-    address oracle;
+    IRMTestDefault interestRateModel;
+    EthereumVaultConnector evc;
+    TrackingRewardStreams rewardStreams;
+    VaultLens vaultLens;
+    AccountLens accountLens;
+    MockPriceOracle mockPriceOracle;
 }
 
 /// @title Deployment script
@@ -81,11 +82,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
     }
 
     function execute(bool useMnemonic) public {
-        string memory root = vm.projectRoot();
-        string memory path = string.concat(root, "/data/forkTokenList.json");
-        string memory json = vm.readFile(path);
-        bytes memory rawData = json.parseRaw("$[*]"); // uses JSONPath to fetch the data
-        TokenInfo[] memory tokenList = abi.decode(rawData, (TokenInfo[]));
+        string memory json = vm.readFile(string.concat(vm.projectRoot(), "/data/forkTokenList.json"));
+        TokenInfo[] memory tokenList = abi.decode(json.parseRaw("$[*]"), (TokenInfo[]));
 
         address deployer = address(this);
         if (useMnemonic) {
@@ -94,38 +92,35 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             vm.startBroadcast(deployerPrivateKey);
         }
 
-        (
-            GenericFactory factory,
-            MockPriceOracle mockPriceOracle,
-            IRMTestDefault interestRateModel,
-            EthereumVaultConnector evc,
-            TrackingRewardStreams rewardStreams,
-            VaultLens vaultLens,
-            AccountLens accountLens
-        ) = deployStructure(deployer);
+        DeploymentData memory deploymentData = deployStructure(deployer);
 
         // we will create a token for each token in the list
         address[] memory vaults = new address[](tokenList.length);
 
         for (uint256 i = 0; i < tokenList.length; i++) {
             console.log("addressInfo: ", tokenList[i].addressInfo);
-            console.log("mockPriceOracle: ", address(mockPriceOracle));
-            console.log("unitOfAccount: ", unitOfAccount);
+            console.log("mockPriceOracle: ", address(deploymentData.mockPriceOracle));
+            console.log("unitOfAccount: ", deploymentData.unitOfAccount);
+            uint256 factoryIndex = randomNumber(0, deploymentData.factories.length - 1);
             EVault vault = EVault(
-                factory.createProxy(
+                deploymentData.factories[factoryIndex].createProxy(
                     address(0),
                     false,
-                    abi.encodePacked(address(tokenList[i].addressInfo), mockPriceOracle, unitOfAccount)
+                    abi.encodePacked(
+                        address(tokenList[i].addressInfo),
+                        address(deploymentData.mockPriceOracle),
+                        deploymentData.unitOfAccount
+                    )
                 )
             );
-            vault.setInterestRateModel(address(interestRateModel));
+            vault.setInterestRateModel(address(deploymentData.interestRateModel));
             // approveAndDepositToVault(address(vault), tokenList[i].addressInfo, 100e18, deployer);
             vaults[i] = address(vault);
         }
 
         for (uint256 i = 0; i < vaults.length; i++) {
             uint256 randomVaultsCount = randomNumber(0, vaults.length - 1);
-            setupRewardStreams(vaults[i], rewardStreams, tokenList);
+            setupRewardStreams(vaults[i], deploymentData.rewardStreams, tokenList);
             for (uint256 j = 0; j < randomVaultsCount; j++) {
                 address randomController = vaults[randomNumber(0, vaults.length - 1)];
                 address randomCollateral = vaults[randomNumber(0, vaults.length - 1)];
@@ -142,23 +137,11 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
                     0
                 );
 
-                setPriceOracle(mockPriceOracle, randomController, randomCollateral);
+                setPriceOracle(deploymentData.mockPriceOracle, randomController, randomCollateral);
             }
         }
 
-        VaultData memory vaultData = VaultData(
-            vaults,
-            unitOfAccount,
-            address(interestRateModel),
-            address(evc),
-            address(factory),
-            address(rewardStreams),
-            address(vaultLens),
-            address(accountLens),
-            address(mockPriceOracle)
-        );
-
-        string memory resultAll = serializeVaults(vaultData);
+        string memory resultAll = serializeVaults(deploymentData);
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
         string memory lendAppLocation = "./lists/local/";
@@ -212,26 +195,39 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         return false;
     }
 
-    function serializeVaults(VaultData memory _vaultData) public returns (string memory) {
+    function serializeVaults(DeploymentData memory _deploymentData) public returns (string memory) {
         string memory outputKey = "data";
         string memory resultAll = "";
-        for (uint256 i = 0; i < _vaultData.vaults.length; i++) {
-            string memory vaultData = addressToString(_vaultData.vaults[i]);
-            IEVault vault = IEVault(_vaultData.vaults[i]);
-            vm.serializeAddress(vaultData, "address", _vaultData.vaults[i]);
-            vm.serializeAddress(vaultData, "asset", vault.asset());
-            vm.serializeString(vaultData, "name", vault.name());
-            vm.serializeString(vaultData, "symbol", vault.symbol());
-            vm.serializeAddress(vaultData, "unitOfAccount", _vaultData.unitOfAccount);
-            vm.serializeAddress(vaultData, "interestRateModel", _vaultData.interestRateModel);
-            vm.serializeAddress(vaultData, "evc", _vaultData.evc);
-            vm.serializeAddress(vaultData, "genericFactory", _vaultData.factory);
-            vm.serializeAddress(vaultData, "rewardStreams", _vaultData.rewardStreams);
-            vm.serializeAddress(vaultData, "vaultLens", _vaultData.vaultLens);
-            vm.serializeAddress(vaultData, "accountLens", _vaultData.accountLens);
-            string memory result = vm.serializeAddress(vaultData, "oracle", _vaultData.oracle);
-            resultAll = vm.serializeString(outputKey, vaultData, result);
+        for (uint256 i = 0; i < _deploymentData.factoryPerspectives.length; i++) {
+            address[] memory vaults = _deploymentData.factoryPerspectives[i].verifiedArray();
+            for (uint256 j = 0; j < vaults.length; j++) {
+                string memory data = addressToString(vaults[j]);
+                IEVault vault = IEVault(vaults[j]);
+                vm.serializeAddress(data, "address", vaults[j]);
+                vm.serializeAddress(data, "asset", vault.asset());
+                vm.serializeString(data, "name", vault.name());
+                vm.serializeString(data, "symbol", vault.symbol());
+                vm.serializeAddress(data, "unitOfAccount", _deploymentData.unitOfAccount);
+                vm.serializeAddress(data, "interestRateModel", address(_deploymentData.interestRateModel));
+                vm.serializeAddress(data, "evc", address(_deploymentData.evc));
+                address[] memory factoryPerspectives = new address[](_deploymentData.factoryPerspectives.length);
+                for (uint256 k = 0; k < _deploymentData.factoryPerspectives.length; k++) {
+                    factoryPerspectives[k] = address(_deploymentData.factoryPerspectives[k]);
+                }
+                vm.serializeAddress(data, "factoryPerspective", factoryPerspectives);
+                address[] memory genericFactories = new address[](_deploymentData.factories.length);
+                for (uint256 k = 0; k < _deploymentData.factories.length; k++) {
+                    genericFactories[k] = address(_deploymentData.factories[k]);
+                }
+                vm.serializeAddress(data, "genericFactory", genericFactories);
+                vm.serializeAddress(data, "rewardStreams", address(_deploymentData.rewardStreams));
+                vm.serializeAddress(data, "vaultLens", address(_deploymentData.vaultLens));
+                vm.serializeAddress(data, "accountLens", address(_deploymentData.accountLens));
+                string memory result = vm.serializeAddress(data, "oracle", address(_deploymentData.mockPriceOracle));
+                resultAll = vm.serializeString(outputKey, data, result);
+            }
         }
+
         return resultAll;
     }
 
@@ -253,23 +249,14 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         mockPriceOracle.setPrice(collateral.asset(), quoteAsset, 1e18);
     }
 
-    function deployStructure(address deployer)
-        public
-        returns (
-            GenericFactory factory,
-            MockPriceOracle mockPriceOracle,
-            IRMTestDefault interestRateModel,
-            EthereumVaultConnector evc,
-            TrackingRewardStreams rewardStreams,
-            VaultLens vaultLens,
-            AccountLens accountLens
-        )
-    {
+    function deployStructure(address deployer) public returns (DeploymentData memory data) {
+        data.unitOfAccount = unitOfAccount;
+
         // deploy the EVC
-        evc = new EthereumVaultConnector();
+        data.evc = new EthereumVaultConnector();
 
         // deploy the reward streams contract
-        rewardStreams = new TrackingRewardStreams(address(evc), 14 days);
+        data.rewardStreams = new TrackingRewardStreams(address(data.evc), 14 days);
 
         // deploy the protocol config
         address protocolConfig = address(new ProtocolConfig(deployer, deployer));
@@ -278,8 +265,9 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         address sequenceRegistry = address(new SequenceRegistry());
 
         // define the integrations struct
-        Base.Integrations memory integrations =
-            Base.Integrations(address(evc), protocolConfig, sequenceRegistry, address(rewardStreams), PERMIT2_ADDRESS);
+        Base.Integrations memory integrations = Base.Integrations(
+            address(data.evc), protocolConfig, sequenceRegistry, address(data.rewardStreams), PERMIT2_ADDRESS
+        );
 
         // deploy the EVault modules
         Dispatch.DeployedModules memory modules = Dispatch.DeployedModules({
@@ -293,21 +281,30 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             governance: address(new Governance(integrations))
         });
 
-        // deploy the factory
-        factory = new GenericFactory(deployer);
+        uint256 numberOfFactories = 2;
+        data.factories = new GenericFactory[](numberOfFactories);
+        data.factoryPerspectives = new EulerFactoryPerspective[](numberOfFactories);
 
-        // set up the factory deploying the EVault implementation
-        factory.setImplementation(address(new EVault(integrations, modules)));
+        for (uint256 i = 0; i < numberOfFactories; ++i) {
+            // deploy the factory
+            data.factories[i] = new GenericFactory(deployer);
+
+            // set up the factory deploying the EVault implementation
+            data.factories[i].setImplementation(address(new EVault(integrations, modules)));
+
+            // deploy the factory perspective
+            data.factoryPerspectives[i] = new EulerFactoryPerspective(address(data.factories[i]));
+        }
 
         // deploy the price oracle
-        mockPriceOracle = new MockPriceOracle();
+        data.mockPriceOracle = new MockPriceOracle();
 
         // deploy a default interest rate model
-        interestRateModel = new IRMTestDefault();
+        data.interestRateModel = new IRMTestDefault();
 
         // deploy the lenses
-        vaultLens = new VaultLens();
-        accountLens = new AccountLens();
+        data.vaultLens = new VaultLens(address(new OracleLens()));
+        data.accountLens = new AccountLens();
     }
 
     function addressToString(address _addr) public pure returns (string memory) {
