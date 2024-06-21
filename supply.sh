@@ -33,11 +33,9 @@ echo "Enter Perspective Address:"
 read perspective_address
 # verify that this is an ethereum address
 if [[ ! $perspective_address =~ ^0x[a-fA-F0-9]{40}$ ]]; then
-    echo "Invalid Ethereum address. Exiting..."
-    exit 1
+	echo "Invalid Ethereum address. Exiting..."
+	exit 1
 fi
-
-
 
 account=$(cast wallet address --mnemonic "$MNEMONIC")
 # Assuming the command outputs the private key in the format you've shown
@@ -49,10 +47,10 @@ approvalValue=1000000
 depositValue=100
 
 verifiedArrayJson=$(cast call $perspective_address "verifiedArray()(address[])" --rpc-url $REMOTE_RPC_URL)
-echo "Verified Array: $verifiedArray"
-
+echo "Verified Array: $verifiedArrayJson"
 verifiedArray=$(echo $verifiedArrayJson | tr -d '[],')
 for vault_address in $verifiedArray; do
+	echo "Vault Address: $vault_address"
 	asset_address=$(cast call $vault_address "asset()(address)" --rpc-url $REMOTE_RPC_URL)
 	asset_decimals=$(cast call $asset_address "decimals()(uint8)" --rpc-url $REMOTE_RPC_URL)
 
