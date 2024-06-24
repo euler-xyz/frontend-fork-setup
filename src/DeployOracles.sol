@@ -23,10 +23,12 @@ contract DeployOracles is Script, Test {
     using stdJson for string;
     using Strings for uint256;
 
-    string constant outputKey = "data";
-    string internal resultAll = "";
+    string constant outputKey = "dataDeployOracles";
+    string internal resultAll = "deployOraclesResult";
     address internal deployer;
     EulerRouterFactory internal routerFactory;
+    EulerRouter internal oracleRouter;
+    AdapterRegistry internal adapterRegistry;
 
     function run() public {
         execute(true);
@@ -66,10 +68,10 @@ contract DeployOracles is Script, Test {
         quotes[4] = USD;
         oracles[4] = address(redstone_CRV_USD);
 
-        EulerRouter router = deployRouter();
-        configureRouter(router, bases, quotes, oracles, new address[](0));
+        oracleRouter = deployRouter();
+        configureRouter(oracleRouter, bases, quotes, oracles, new address[](0));
 
-        AdapterRegistry adapterRegistry = deployAdapterRegistry();
+        adapterRegistry = deployAdapterRegistry();
         configureAdapterRegistry(adapterRegistry, bases, quotes, oracles);
 
         writeDeploymentResult();
