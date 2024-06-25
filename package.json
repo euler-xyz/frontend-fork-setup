@@ -1,0 +1,24 @@
+{
+  "name": "frontent-fork-setup",
+  "version": "1.0.0",
+  "description": "Deploy a testnet setup for the [EVK](https://github.com/euler-xyz/euler-vault-kit) and [EVC](https://github.com/euler-xyz/ethereum-vault-connector/).",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-foundry": "^1.1.2",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@tenderly/hardhat-tenderly": "^2.2.2",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.5"
+  }
+}
