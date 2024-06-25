@@ -59,6 +59,30 @@ select_json_file() {
 	done
 }
 
+# Function to ABI encode constructor arguments
+abi_encode_args() {
+	local contract_name="$1"
+	local args="$2"
+
+	# Get the full ABI
+	local abi=$(forge inspect "$contract_name" abi)
+
+	# Extract the constructor from the ABI
+	local constructor=$(echo "$abi" | jq 'map(select(.type == "constructor"))[0]')
+
+	if [ -z "$constructor" ] || [ "$constructor" = "null" ]; then
+		echo ""
+	else
+		# Extract the input types from the constructor
+		local input_types=$(echo "$constructor" | jq -r '.inputs | map(.type) | join(",")')
+
+		argsSeparatedBySpace=$(echo "$args" | tr ',' ' ')
+		encoded_args=$(cast abi-encode "constructor($input_types)" $argsSeparatedBySpace)
+
+		echo "${encoded_args}" # Remove '0x' prefix
+	fi
+}
+
 trim_command() {
 	echo "$1" | sed -E 's/[[:space:]]+/ /g'
 }
@@ -74,9 +98,7 @@ echo "$json_data" | jq -c '.transactions[]' | while read -r transaction; do
 	address=$(echo "$transaction" | jq -r '.contractAddress')
 	contract_name=$(echo "$transaction" | jq -r '.contractName')
 	constructor_args=$(echo "$transaction" | jq -r '.arguments | join(",")')
-	echo "$address"
-	echo "$contract_name"
-	echo "$constructor_args"
+	transaction_type=$(echo "$transaction" | jq -r '.transactionType')
 
 	# Skip if address is null or empty
 	if [ "$address" = "null" ] || [ -z "$address" ]; then
@@ -88,21 +110,33 @@ echo "$json_data" | jq -c '.transactions[]' | while read -r transaction; do
 		continue
 	fi
 
-	# Format constructor arguments
-	formatted_args=$(extract_constructor_args "$constructor_args")
+	# Check if transaction type is CREATE
+	if [ "$transaction_type" != "CREATE" ]; then
+		echo "Skipping non-CREATE transaction for $contract_name"
+		continue
+	fi
+
+	echo "$address"
+	echo "$contract_name"
+	echo "$constructor_args"
+
+	encoded_args=$(abi_encode_args "$contract_name" "$constructor_args")
+	echo "encoded_args: $encoded_args"
 
 	echo "Verifying contract: $contract_name at address $address"
 
 	# Construct and execute the forge verify-contract command
 	command="forge verify-contract $address $contract_name \
 		--verifier-url $verifierUrl \
-		--verifier etherscan \
 		--etherscan-api-key $VERIFIER_API_KEY \
+		--chain 41337 \
+		--retries 10 \
+		--delay 10 \
 		--watch"
 
 	# Add constructor args if present
-	if [ -n "$formatted_args" ]; then
-		command="$command --constructor-args $formatted_args"
+	if [ -n "$encoded_args" ]; then
+		command="$command --constructor-args $encoded_args"
 	fi
 
 	trimmedCommand=$(trim_command "$command")
