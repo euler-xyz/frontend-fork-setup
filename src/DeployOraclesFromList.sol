@@ -66,8 +66,13 @@ contract DeployOraclesFromList is DeployOracles {
         address quote;
     }
 
-    function execute(bool useMnemonic) public override {
+    function execute(bool useMnemonic) public override virtual {
+        _setupOraclesFromList(useMnemonic);
+    }
+
+    function _setupOraclesFromList(bool useMnemonic) internal {
         setUpDeployer(useMnemonic);
+        deployRouterFactory();
 
         string memory root = vm.projectRoot();
         string memory oracleListPath = "/data/oracleListSmall.json";
@@ -77,8 +82,8 @@ contract DeployOraclesFromList is DeployOracles {
         uint256 numOracles = json.readUint(".numOracles");
         console2.log("[DeployOracles] Deploying %s oracles from oracle list at %s", numOracles, oracleListPath);
 
-        EulerRouter router = deployRouter();
-        AdapterRegistry adapterRegistry = deployAdapterRegistry();
+        oracleRouter = deployRouter();
+        adapterRegistry = deployAdapterRegistry();
 
         address[] memory bases = new address[](numOracles);
         address[] memory quotes = new address[](numOracles);
@@ -149,9 +154,9 @@ contract DeployOraclesFromList is DeployOracles {
             }
         }
 
-        configureRouter(router, bases, quotes, oracles, new address[](0));
+        configureRouter(oracleRouter, bases, quotes, oracles, new address[](0));
         configureAdapterRegistry(adapterRegistry, bases, quotes, oracles);
-        writeDeploymentResult();
+        writeDeploymentResult();   
     }
 
     function strEq(string memory a, string memory b) internal pure returns (bool) {

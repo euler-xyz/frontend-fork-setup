@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.0;
 
 import "forge-std/Script.sol";
 import "forge-std/Test.sol";
@@ -34,6 +34,7 @@ import {MockPriceOracle} from "./mocks/MockPriceOracle.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 import {SafeERC20} from "openzeppelin-contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC20} from "openzeppelin-contracts/token/ERC20/IERC20.sol";
+import {DeployOraclesFromList} from "./DeployOraclesFromList.sol";
 // --------------------------------------------------------------------------------------------------------
 // What matters is the alphabetical order.
 // As the JSON object is an unordered data structure but the tuple is an ordered one,
@@ -59,12 +60,11 @@ struct DeploymentData {
     TrackingRewardStreams rewardStreams;
     VaultLens vaultLens;
     AccountLens accountLens;
-    MockPriceOracle mockPriceOracle;
 }
 
 /// @title Deployment script
 /// @notice This script is used for deploying a couple vaults along with supporting contracts for testing purposes
-contract DeployLendVaults is Script, Test, FoundryRandom {
+contract DeployLendVaults is Script, Test, FoundryRandom, DeployOraclesFromList {
     using stdJson for string;
     using Strings for uint256;
 
@@ -77,20 +77,13 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         execute(false);
     }
 
-    function run() public {
-        execute(true);
-    }
-
-    function execute(bool useMnemonic) public {
-        string memory json = vm.readFile(string.concat(vm.projectRoot(), "/data/forkTokenList.json"));
-        TokenInfo[] memory tokenList = abi.decode(json.parseRaw("$[*]"), (TokenInfo[]));
-
-        address deployer = address(this);
-        if (useMnemonic) {
-            uint256 deployerPrivateKey = vm.deriveKey(vm.envString("MNEMONIC"), 0);
-            deployer = vm.addr(deployerPrivateKey);
-            vm.startBroadcast(deployerPrivateKey);
-        }
+    function execute(bool useMnemonic) public override {
+        _setupOraclesFromList(useMnemonic);
+        string memory root = vm.projectRoot();
+        string memory path = string.concat(root, "/data/forkTokenList.json");
+        string memory json = vm.readFile(path);
+        bytes memory rawData = json.parseRaw("$[*]"); // uses JSONPath to fetch the data
+        TokenInfo[] memory tokenList = abi.decode(rawData, (TokenInfo[]));
 
         DeploymentData memory deploymentData = deployStructure(deployer);
 
@@ -98,23 +91,15 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         address[] memory vaults = new address[](tokenList.length);
 
         for (uint256 i = 0; i < tokenList.length; i++) {
-            console.log("addressInfo: ", tokenList[i].addressInfo);
-            console.log("mockPriceOracle: ", address(deploymentData.mockPriceOracle));
-            console.log("unitOfAccount: ", deploymentData.unitOfAccount);
             uint256 factoryIndex = randomNumber(0, deploymentData.factories.length - 1);
             EVault vault = EVault(
                 deploymentData.factories[factoryIndex].createProxy(
                     address(0),
                     false,
-                    abi.encodePacked(
-                        address(tokenList[i].addressInfo),
-                        address(deploymentData.mockPriceOracle),
-                        deploymentData.unitOfAccount
-                    )
+                    abi.encodePacked(address(tokenList[i].addressInfo), address(oracleRouter), deploymentData.unitOfAccount)
                 )
             );
             vault.setInterestRateModel(address(deploymentData.interestRateModel));
-            // approveAndDepositToVault(address(vault), tokenList[i].addressInfo, 100e18, deployer);
             vaults[i] = address(vault);
         }
 
@@ -129,25 +114,23 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
                     continue; // self collateralization is not allowed
                 }
 
-                uint256 randomLTV = randomNumber(10, 100);
+                uint256 randomLTV = randomNumber(65, 100);
                 IEVault(randomController).setLTV(
                     randomCollateral,
                     uint16(((1e4) * (randomLTV - 5)) / 100), // borrowLTV
                     uint16(((1e4) * randomLTV) / 100), // liquidationLTV
                     0
                 );
-
-                setPriceOracle(deploymentData.mockPriceOracle, randomController, randomCollateral);
             }
         }
 
-        string memory resultAll = serializeVaults(deploymentData);
+        string memory serializedResultAll = serializeVaults(deploymentData);
         uint256 blockNumber = block.number;
         string memory blockNumberStr = blockNumber.toString();
         string memory lendAppLocation = "./lists/local/";
         string memory outputPath = string.concat(lendAppLocation, "vaultList", "-", blockNumberStr, ".json");
-        vm.writeJson(resultAll, outputPath);
-        vm.writeJson(resultAll, string.concat(lendAppLocation, "vaultList-latest.json"));
+        vm.writeJson(serializedResultAll, outputPath);
+        vm.writeJson(serializedResultAll, string.concat(lendAppLocation, "vaultList-latest.json"));
     }
 
     function setupRewardStreams(address vault, TrackingRewardStreams rewardStreams, TokenInfo[] memory tokenList)
@@ -196,8 +179,8 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
     }
 
     function serializeVaults(DeploymentData memory _deploymentData) public returns (string memory) {
-        string memory outputKey = "data";
-        string memory resultAll = "";
+        string memory outputKey = "dataLendVaultsDeploy";
+        string memory resultAll = "lendVaultsDeployResult";
         for (uint256 i = 0; i < _deploymentData.factoryPerspectives.length; i++) {
             address[] memory vaults = _deploymentData.factoryPerspectives[i].verifiedArray();
             for (uint256 j = 0; j < vaults.length; j++) {
@@ -210,20 +193,12 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
                 vm.serializeAddress(data, "unitOfAccount", _deploymentData.unitOfAccount);
                 vm.serializeAddress(data, "interestRateModel", address(_deploymentData.interestRateModel));
                 vm.serializeAddress(data, "evc", address(_deploymentData.evc));
-                address[] memory factoryPerspectives = new address[](_deploymentData.factoryPerspectives.length);
-                for (uint256 k = 0; k < _deploymentData.factoryPerspectives.length; k++) {
-                    factoryPerspectives[k] = address(_deploymentData.factoryPerspectives[k]);
-                }
-                vm.serializeAddress(data, "factoryPerspective", factoryPerspectives);
-                address[] memory genericFactories = new address[](_deploymentData.factories.length);
-                for (uint256 k = 0; k < _deploymentData.factories.length; k++) {
-                    genericFactories[k] = address(_deploymentData.factories[k]);
-                }
-                vm.serializeAddress(data, "genericFactory", genericFactories);
+                vm.serializeAddress(data, "factoryPerspective", address(_deploymentData.factoryPerspectives[i]));
+                vm.serializeAddress(data, "genericFactory", address(_deploymentData.factories[i]));
                 vm.serializeAddress(data, "rewardStreams", address(_deploymentData.rewardStreams));
                 vm.serializeAddress(data, "vaultLens", address(_deploymentData.vaultLens));
                 vm.serializeAddress(data, "accountLens", address(_deploymentData.accountLens));
-                string memory result = vm.serializeAddress(data, "oracle", address(_deploymentData.mockPriceOracle));
+                string memory result = vm.serializeAddress(data, "oracle", address(oracleRouter));
                 resultAll = vm.serializeString(outputKey, data, result);
             }
         }
@@ -236,17 +211,6 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
         IEVault vault = IEVault(_vault);
         token.approve(_vault, _amount);
         vault.deposit(_amount, _receiver);
-    }
-
-    function setPriceOracle(MockPriceOracle mockPriceOracle, address _controller, address _collateral) private {
-        IEVault controller = IEVault(_controller);
-        IEVault collateral = IEVault(_collateral);
-        address quoteAsset = controller.unitOfAccount();
-        // uint256 randomPriceFactorAssetVault = randomNumber(1, 100);
-        // uint256 randomPriceFactorAssetCollateral = randomNumber(1, 100);
-        mockPriceOracle.setPrice(controller.asset(), quoteAsset, 1e18);
-        mockPriceOracle.setResolvedVault(address(collateral), true);
-        mockPriceOracle.setPrice(collateral.asset(), quoteAsset, 1e18);
     }
 
     function deployStructure(address deployer) public returns (DeploymentData memory data) {
@@ -295,9 +259,6 @@ contract DeployLendVaults is Script, Test, FoundryRandom {
             // deploy the factory perspective
             data.factoryPerspectives[i] = new EulerFactoryPerspective(address(data.factories[i]));
         }
-
-        // deploy the price oracle
-        data.mockPriceOracle = new MockPriceOracle();
 
         // deploy a default interest rate model
         data.interestRateModel = new IRMTestDefault();
